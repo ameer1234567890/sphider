@@ -1278,7 +1278,7 @@ function addcatform($parent) {
 		break;
 	}
 	$stats = getStatistics();
-	print "<br/>	<center><p>Currently in database: ".$stats['sites']." sites, ".$stats['links']." links, ".$stats['categories']." categories and ".$stats['keywords']." keywords.</p></center>\n";
+	print "<br/><br/>	<center>Currently in database: ".$stats['sites']." sites, ".$stats['links']." links, ".$stats['categories']." categories and ".$stats['keywords']." keywords.<br/><br/></center>\n";
 
 ?>
 </div>

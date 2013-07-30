@@ -267,6 +267,7 @@ include "../settings/conf.php";
 <option value="de" <? if ($language == "de") echo "selected";?>>German</option>
 <option value="hu" <? if ($language == "hu") echo "selected";?>>Hungarian</option>
 <option value="it" <? if ($language == "it") echo "selected";?>>Italian</option>
+<option value="lv" <? if ($language == "lv") echo "selected";?>>Latvian</option>
 <option value="pl" <? if ($language == "pl") echo "selected";?>>Polish</option>
 <option value="pt" <? if ($language == "pt") echo "selected";?>>Portuguese</option>
 <option value="ro" <? if ($language == "ro") echo "selected";?>>Romanian</option>

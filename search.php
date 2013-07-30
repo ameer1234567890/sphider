@@ -4,22 +4,42 @@
 * This program is licensed under the GNU GPL.
 * By Ando Saabas          ando(a t)cs.ioc.ee
 ********************************************/
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); 
-
-
+//error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); 
+error_reporting(E_ALL); 
 $include_dir = "./include"; 
 include ("$include_dir/commonfuncs.php");
-extract(getHttpVars());
+//extract(getHttpVars());
+
+if (isset($_GET['query']))
+	$query = $_GET['query'];
+if (isset($_GET['search']))
+	$search = $_GET['search'];
+if (isset($_GET['domain'])) 
+	$domain = $_GET['domain'];
+if (isset($_GET['type'])) 
+	$type = $_GET['type'];
+if (isset($_GET['catid'])) 
+	$catid = $_GET['catid'];
+if (isset($_GET['category'])) 
+	$category = $_GET['category'];
+if (isset($_GET['results'])) 
+	$results = $_GET['results'];
+if (isset($_GET['start'])) 
+	$start = $_GET['start'];
+if (isset($_GET['adv'])) 
+	$adv = $_GET['adv'];
+	
+	
 $include_dir = "./include"; 
 $template_dir = "./templates"; 
 $settings_dir = "./settings"; 
 $language_dir = "./languages";
 
+
 require_once("$settings_dir/database.php");
 require_once("$language_dir/en-language.php");
 require_once("$include_dir/searchfuncs.php");
 require_once("$include_dir/categoryfuncs.php");
-
 
 
 include "$settings_dir/conf.php";
@@ -53,12 +73,9 @@ if (!is_numeric($category)) {
 	$category = "";
 } 
 
-if (get_magic_quotes_gpc()!=1) {
-	$catid =addslashes($catid);
-} 
 
 
-if ($_REQUEST['catid']  && is_numeric($catid)) {
+if ($catid && is_numeric($catid)) {
 
 	$tpl_['category'] = sql_fetch_all('SELECT category FROM '.$mysql_table_prefix.'categories WHERE category_id='.(int)$_REQUEST['catid']);
 }

@@ -136,11 +136,11 @@ background: #e5ecf9;
 	display: inline;
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
 }
 
 #tabs li { 
 	float: left; 
+	height: 26px;
 }
 
 #tabs a { 
@@ -149,7 +149,7 @@ background: #e5ecf9;
 
 #tabs a#selected {
 	position: relative;
-	top: 0;
+	top: 0px;
 	margin: 0 2px 0 0;
 	float: left;
 	background: #eee;
@@ -165,7 +165,7 @@ background: #e5ecf9;
 #tabs a#default {
 	position: relative;
 	top: 0;
-	margin: 1px 2px 0 0;
+	margin: 2px 2px 0 0;
 	float: left;
 	border-right: 1px solid #AAA;
 	border-top: 1px solid #AAA;
@@ -177,7 +177,7 @@ background: #e5ecf9;
 }
 
 #tabs a:hover {
-	background: #e5ecf9;
+	background: #eee;
 	position: relative;
 	top: 0;
 	padding: 5px 4px 6px 10px;

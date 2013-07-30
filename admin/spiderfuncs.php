@@ -337,8 +337,9 @@ function unique_array($arr) {
 	$regs = Array ();
 	for ($n = 0; $n < sizeof($arr); $n ++) {
 		//check if word is long enough, contains alphabetic characters and is not a common word
-			//to eliminate/count multiple instance of words
-			if (next($arr) != $element) {
+		//to eliminate/count multiple instance of words
+		$next_in_arr = next($arr);
+		if ($next_in_arr != $element) {
 			if (strlen($element) >= $min_word_length && preg_match($pattern, remove_accents($element)) && (@ $common[$element] <> 1)) {
 				if (preg_match("/^(-|\\\')(.*)/", $element, $regs))
 					$element = $regs[2];
@@ -352,12 +353,12 @@ function unique_array($arr) {
 				$i ++;
 				$counter = 1;
 			} else {
-				$element = next($arr);
+				$element = $next_in_arr;
 			}
 		} else {
 				if ($counter < $word_upper_bound)
 					$counter ++;
-			}
+		}
 
 	}
 	return $newarr;
