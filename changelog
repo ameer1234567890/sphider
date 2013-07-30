@@ -4,6 +4,12 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
+Sphider 1.3.4, release date 11-12-2007
+    Bug in file download function fixed (Viorel Irimia)
+    Bug with possible bold tag bleeding in result titles fixed (Ando Saabas)
+    Index all does not load keyword table multiple times any  more (Ando Saabas)
+    Bug with certain searches returning too many results fixed (Ando Saabas)
+
 Sphider 1.3.3, release date 15-09-2007
     Sphider now also works on ports other than default 80 (Ando Saabas)
     By default socket connectability checking removed (Ando Saabas)

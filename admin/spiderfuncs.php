@@ -51,10 +51,11 @@ function getFileContents($url) {
 		}
 		$data = null;
 		socket_set_timeout($fp, $fsocket_timeout);
-		$status = socket_get_status($fp);
-		while (!feof($fp) && !$status['timed_out']) {
+		do{
+			$status = socket_get_status($fp);
 			$data .= fgets($fp, 8192);
-		}
+		} while (!feof($fp) && !$status['timed_out']) ;
+
 		fclose($fp);
 		if ($status['timed_out'] == 1) {
 			$contents['state'] = "timeout";

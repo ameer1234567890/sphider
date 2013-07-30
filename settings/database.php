@@ -1,5 +1,5 @@
 <?php
-	$database="sphider2";
+	$database="sphider";
 	$mysql_user = "root";
 	$mysql_password = ""; 
 	$mysql_host = "localhost";

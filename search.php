@@ -48,7 +48,7 @@ include "$template_dir/$template/header.html";
 include "$language_dir/$language-language.php";
 
 
-if (!isset($type)) {
+if ($type != "or" && $type != "and" && $type != "phrase") { 
 	$type = "and";
 }
 

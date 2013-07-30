@@ -144,7 +144,7 @@ $desc_length		= 250;
 $merge_site_results		= 0;
 
 // Enable spelling suggestions (Did you mean...)
-$did_you_mean_enabled	= 1;
+$did_you_mean_enabled	= 0;
 
 // Enable Sphider Suggest 
 $suggest_enabled		= 1;

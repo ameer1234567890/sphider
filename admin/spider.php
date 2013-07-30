@@ -358,12 +358,13 @@
 
 	function index_site($url, $reindex, $maxlevel, $soption, $url_inc, $url_not_inc, $can_leave_domain) {
 		global $mysql_table_prefix, $command_line, $mainurl,  $tmp_urls, $domain_arr, $all_keywords;
-		$result = mysql_query("select keyword_ID, keyword from ".$mysql_table_prefix."keywords");
-		echo mysql_error();
-		while($row=mysql_fetch_array($result)) {
-			$all_keywords[addslashes($row[1])] = $row[0];
+		if (!isset($all_keywords)) {
+			$result = mysql_query("select keyword_ID, keyword from ".$mysql_table_prefix."keywords");
+			echo mysql_error();
+			while($row=mysql_fetch_array($result)) {
+				$all_keywords[addslashes($row[1])] = $row[0];
+			}
 		}
-
 		$compurl = parse_url($url);
 		if ($compurl['path'] == '')
 			$url = $url . "/";

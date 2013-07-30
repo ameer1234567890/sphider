@@ -262,62 +262,63 @@ error_reporting(E_ALL ^ E_NOTICE);
 		}
 		$result_array_full = Array();
 
-		if ($words == 1 && $not_words == 0 && $category < 1) { //if there is only one search word, we already have the result
-			$result_array_full = $linklist[0]['weight'];
-		} else { //otherwise build an intersection of all the results
-			$j= 1;
-			$min = 0;
-			while ($j < $words) {
-				if (count($linklist[$min]['id']) > count($linklist[$j]['id'])) {
-					$min = $j;
+		if ($possible_to_find !=0) {
+			if ($words == 1 && $not_words == 0 && $category < 1) { //if there is only one search word, we already have the result
+				$result_array_full = $linklist[0]['weight'];
+			} else { //otherwise build an intersection of all the results
+				$j= 1;
+				$min = 0;
+				while ($j < $words) {
+					if (count($linklist[$min]['id']) > count($linklist[$j]['id'])) {
+						$min = $j;
+					}
+					$j++;
 				}
-				$j++;
+
+				$j = 0;
+
+
+				$temp_array = $linklist[$min]['id'];
+				$count = 0;
+				while ($j < count($temp_array)) {
+					$k = 0; //and word counter
+					$n = 0; //not word counter
+					$o = 0; //phrase word counter
+					$weight = 1;
+					$break = 0;
+					while ($k < $words && $break== 0) {
+						if ($linklist[$k]['weight'][$temp_array[$j]] > 0) {
+							$weight = $weight + $linklist[$k]['weight'][$temp_array[$j]];
+						} else {
+							$break = 1;
+						}
+						$k++;
+					}
+					while ($n < $not_words && $break== 0) {
+						if ($notlist[$n]['id'][$temp_array[$j]] > 0) {
+							$break = 1;
+						}
+						$n++;
+					}				
+
+					while ($o < $phrase_words && $break== 0) {
+						if ($phraselist[$n]['id'][$temp_array[$j]] != 1) {
+							$break = 1;
+						}
+						$o++;
+					}
+					if ($break== 0 && $category > 0 && $category_list[$temp_array[$j]] != 1) {
+						$break = 1;
+					}
+
+					if ($break == 0) {
+						$result_array_full[$temp_array[$j]] = $weight;
+						$count ++;
+					}
+					$j++;
+				}
 			}
-
-			$j = 0;
-
-
-			$temp_array = $linklist[$min]['id'];
-			$count = 0;
-			while ($j < count($temp_array)) {
-				$k = 0; //and word counter
-				$n = 0; //not word counter
-				$o = 0; //phrase word counter
-				$weight = 1;
-				$break = 0;
-				while ($k < $words && $break== 0) {
-					if ($linklist[$k]['weight'][$temp_array[$j]] > 0) {
-						$weight = $weight + $linklist[$k]['weight'][$temp_array[$j]];
-					} else {
-						$break = 1;
-					}
-					$k++;
-				}
-				while ($n < $not_words && $break== 0) {
-					if ($notlist[$n]['id'][$temp_array[$j]] > 0) {
-						$break = 1;
-					}
-					$n++;
-				}				
-
-				while ($o < $phrase_words && $break== 0) {
-					if ($phraselist[$n]['id'][$temp_array[$j]] != 1) {
-						$break = 1;
-					}
-					$o++;
-				}
-				if ($break== 0 && $category > 0 && $category_list[$temp_array[$j]] != 1) {
-					$break = 1;
-				}
-
-				if ($break == 0) {
-					$result_array_full[$temp_array[$j]] = $weight;
-					$count ++;
-				}
-				$j++;
-			}
-		}//word == 1
-
+		}
 		$end = getmicrotime()- $starttime;
 
 
@@ -568,6 +569,10 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 			if ($title=='')
 				$title = $sph_messages["Untitled"];
 			$regs = Array();
+
+			if (strlen($title) > 80) {
+				$title = substr($title, 0,76)."...";
+			}
 			foreach($words['hilight'] as $change) {
 				while (@eregi("[^\>](".$change.")[^\<]", " ".$title." ", $regs)) {
 					$title = eregi_replace($regs[1], "<b>".$regs[1]."</b>", $title);
@@ -582,9 +587,6 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 				}
 			}
 
-			if (strlen($title) > 80) {
-				$title = substr($title, 0,75)."...";
-			}
 
 			$num = $from + $i;
 
