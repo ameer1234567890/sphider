@@ -21,6 +21,7 @@ $sph_messages =  Array (
 	"orSearch" => "OR sök",    
 	"phraseSearch" => "Fras-sökning",
 	"show" => "Visa ",
-	"resultsPerPage" => "resultat per sida"
+	"resultsPerPage" => "resultat per sida",
+	"DidYouMean" => "Did you mean"
 );
 ?>

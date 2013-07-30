@@ -1,4 +1,4 @@
-<?php
+<?php 
 /***********************
  Sphider configuration file
 ***********************/

@@ -22,7 +22,8 @@ $sph_messages =  Array (
 	"orSearch" => "SAU Cauta",    
 	"phraseSearch" => "Cauta Fraza",
 	"show" => "Arata ",
-	"resultsPerPage" => "Rezultate pe pagina"
+	"resultsPerPage" => "Rezultate pe pagina",
+	"DidYouMean" => "Did you mean"
     //This file was made by Chitiga Georges (NaKeDMaN) nakedman@arcshells.ro WwW.FreeDownloads.Lx.Ro
 );
 ?>

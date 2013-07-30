@@ -23,6 +23,7 @@ $sph_messages =  Array (
 	"orSearch" => "OR meklçðana (koks VAI ceïð)",    
 	"phraseSearch" => "Meklçt frâzi",
 	"show" => "Parâdît ",
-	"resultsPerPage" => "rezultâtus vienâ lapâ"
+	"resultsPerPage" => "rezultâtus vienâ lapâ",
+	"DidYouMean" => "Did you mean"
 );
 ?>

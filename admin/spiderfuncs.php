@@ -243,8 +243,13 @@ function remove_file_from_url($url) {
 /*
 Extract links from html
 */
-function get_links($file, $url, $can_leave_domain) {
+function get_links($file, $url, $can_leave_domain, $base) {
 	$chunklist = array ();
+
+    // The base URL comes from either the meta tag or the current URL.
+    if (empty($base)) {
+        $base = $url;
+    }
 
 	$chunklist = explode(">", $file);
 	$links = array ();
@@ -254,7 +259,7 @@ function get_links($file, $url, $can_leave_domain) {
 		if (stristr($chunk, "href")) {
 			while (preg_match("/(href)\s*=\s*[\'\"]?(([[a-z]{3,5}:\/\/(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%\/\?~=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?(\s*rel\s*=\s*[\'\"]?(nofollow)[\'\"]?)?/i", $chunk, $regs)) {
 				if (!isset ($regs[10])) { //if nofollow is not set
-					if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
+					if (($a = url_purify($regs[2], $base, $can_leave_domain)) != '')
 						$links[] = $a;
 				}
 				$pos = strpos ($chunk, $regs[0]);
@@ -265,7 +270,7 @@ function get_links($file, $url, $can_leave_domain) {
 
 		if (stristr($chunk, "frame") && stristr($chunk, "src")) {
 			while (eregi("(frame[^>]*src[[:blank:]]*)=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
-				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
+				if (($a = url_purify($regs[2], $base, $can_leave_domain)) != '')
 					$links[] = $a;
 
 				$chunk = str_replace($regs[0], "", $chunk);
@@ -274,7 +279,7 @@ function get_links($file, $url, $can_leave_domain) {
 
 		if (stristr($chunk, "window") && stristr($chunk, "location")) {
 			while (eregi("(window[.]location)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
-				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
+				if (($a = url_purify($regs[2], $base, $can_leave_domain)) != '')
 					$links[] = $a;
 
 				$chunk = str_replace($regs[0], "", $chunk);
@@ -283,7 +288,7 @@ function get_links($file, $url, $can_leave_domain) {
 
 		if (stristr($chunk, "http-equiv")) {
 			while (eregi("(http-equiv=['\"]refresh['\"] *content=['\"][0-9]+;url)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
-				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
+				if (($a = url_purify($regs[2], $base, $can_leave_domain)) != '')
 					$links[] = $a;
 
 				$chunk = str_replace($regs[0], "", $chunk);
@@ -292,7 +297,7 @@ function get_links($file, $url, $can_leave_domain) {
 
 		if (stristr($chunk, "window") && stristr($chunk, "open")) {
 			while (eregi("(window[.]open[[:blank:]]*[(])[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
-				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
+				if (($a = url_purify($regs[2], $base, $can_leave_domain)) != '')
 					$links[] = $a;
 
 				$chunk = str_replace($regs[0], "", $chunk);
@@ -500,21 +505,28 @@ function get_head_data($file) {
 	$description = "";
 	$robots = "";
 	$keywords = "";
+    $base = "";
 	$res = Array ();
 	if ($headdata != "") {
-		preg_match("/<meta +name *=[\"']?robots[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
+		preg_match("/<meta +name *= *[\"']?robots[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
 		if (isset ($res)) {
 			$robots = $res[1];
 		}
 
-		preg_match("/<meta +name *=[\"']?description[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
+		preg_match("/<meta +name *= *[\"']?description[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
 		if (isset ($res)) {
 			$description = $res[1];
 		}
 
-		preg_match("/<meta +name *=[\"']?keywords[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
+		preg_match("/<meta +name *= *[\"']?keywords[\"']? *content=[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
 		if (isset ($res)) {
 			$keywords = $res[1];
+		}
+
+        // e.g. <base href="http://www.consil.co.uk/index.php" />
+		preg_match("/<base +href *= *[\"']?([^<>'\"]+)[\"']?/i", $headdata, $res);
+		if (isset ($res)) {
+			$base = $res[1];
 		}
 
 		$keywords = preg_replace("/[, ]+/", " ", $keywords);
@@ -533,6 +545,7 @@ function get_head_data($file) {
 		$data['keywords'] = addslashes($keywords);
 		$data['nofollow'] = $nofollow;
 		$data['noindex'] = $noindex;
+		$data['base'] = $base;
 	}
 	return $data;
 }
@@ -561,7 +574,7 @@ function clean_file($file, $url, $type) {
 	$count = 0;
 	while(!($first === FALSE) && $count < 200) {
 		$count ++;
-		$next = strpos($file, "-->");
+		$next = strpos($file, "-->", $first);
 		$file = str_replace(substr($file, $first, $next - $first +3), " ", $file);
 		$first = strpos($file, "<!--");
 	}
@@ -580,7 +593,7 @@ function clean_file($file, $url, $type) {
 
 	$regs = Array ();
 	if (eregi("<title *>([^<>]*)</title *>", $file, $regs)) {
-		$title = $regs[1];
+		$title = trim($regs[1]);
 		$file = str_replace($regs[0], "", $file);
 	} else if ($type == 'pdf' || $type == 'doc') { //the title of a non-html file is its first few words
 		$title = substr($file, 0, strrpos(substr($file, 0, 40), " "));
@@ -633,6 +646,7 @@ function clean_file($file, $url, $type) {
 	$data['path'] = $path;
 	$data['nofollow'] = $headdata['nofollow'];
 	$data['noindex'] = $headdata['noindex'];
+	$data['base'] = $headdata['base'];
 	return $data;
 }
 

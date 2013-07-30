@@ -22,6 +22,7 @@ $sph_messages =  Array (
 	"orSearch" => "millä tahansa sanoista",    
 	"phraseSearch" => "täsmällisellä ilmauksella",
 	"show" => "näytä ",
-	"resultsPerPage" => "tulosta sivulla"
+	"resultsPerPage" => "tulosta sivulla",
+	"DidYouMean" => "Did you mean"
 );
 ?>

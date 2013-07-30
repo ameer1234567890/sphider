@@ -22,6 +22,7 @@ $sph_messages =  Array (
 	"orSearch" => "veya aramaya devam et",    
 	"phraseSearch" => "Sözcük grubu arar",
 	"show" => "Göster ",
-	"resultsPerPage" => "Sayfa Baþý olan Sonuçlar"
+	"resultsPerPage" => "Sayfa Baþý olan Sonuçlar",
+	"DidYouMean" => "Did you mean"
 );
 ?>

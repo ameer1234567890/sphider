@@ -30,6 +30,7 @@ $sph_messages =  Array (
 	"orSearch" => "ÈÍË ÈÃí ßáãÉ",
 	"phraseSearch" => "ÈÍË Úä äÕ",
 	"show" => "ÚÑÖ ",
-	"resultsPerPage" => "äÊíÌÉ Èßá ÕÝÍÉ"
+	"resultsPerPage" => "äÊíÌÉ Èßá ÕÝÍÉ",
+	"DidYouMean" => "Did you mean"
 );
 ?>

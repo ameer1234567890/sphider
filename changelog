@@ -4,6 +4,13 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
+Sphider 1.3.1f, release date 17-03-2007
+    "Did you mean" string no longer hardcoded in templates (Ando Saabas)
+    Formatting bug due to extra </div> in template fixed (Ando Saabas, Frank Carius)
+    Sphider can now find links which are given via the base tag (Jason Judge)
+    Serbian language file added (Aleks)
+    Slovenian language file added (Damir Kervina)
+    Some minor bug fixes (Ando Saabas) 
 
 Sphider 1.3.1e, release date 22-11-2006
     Problem with reaching urls where trailing slash after domain has been omitted fixed (Ando Saabas)

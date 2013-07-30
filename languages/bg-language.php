@@ -21,6 +21,7 @@ $sph_messages =  Array (
 	"orSearch" => "Търсене ИЛИ",
 	"phraseSearch" => "Търсене на фраза",
 	"show" => "Покажи ",
-	"resultsPerPage" => "резултата на страница"
+	"resultsPerPage" => "резултата на страница",
+	"DidYouMean" => "Did you mean"
 );
 ?>

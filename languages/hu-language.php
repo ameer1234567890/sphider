@@ -21,6 +21,7 @@ $sph_messages =  Array (
 	"orSearch" => "VAGY keresés",    
 	"phraseSearch" => "Kifejezés keresése",
 	"show" => "Mutass ",
-	"resultsPerPage" => "ennyit egy oldalon"
+	"resultsPerPage" => "ennyit egy oldalon",
+	"DidYouMean" => "Did you mean"
 );
 ?>

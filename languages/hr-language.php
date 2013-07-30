@@ -21,6 +21,7 @@ $sph_messages =  Array (
 	"orSearch" => "ILI traži",    
 	"phraseSearch" => "Traži frazu",
 	"show" => "Prikaži ",
-	"resultsPerPage" => "rezultata po stranici"
+	"resultsPerPage" => "rezultata po stranici",
+	"DidYouMean" => "Did you mean"
 );
 ?>

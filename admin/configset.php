@@ -272,7 +272,9 @@ include "../settings/conf.php";
 <option value="pt" <?php  if ($language == "pt") echo "selected";?>>Portuguese</option>
 <option value="ro" <?php  if ($language == "ro") echo "selected";?>>Romanian</option>
 <option value="ru" <?php  if ($language == "ru") echo "selected";?>>Russian</option>
+<option value="sr" <?php  if ($language == "sr") echo "selected";?>>Serbian</option>
 <option value="sk" <?php  if ($language == "sk") echo "selected";?>>Slovak</option>
+<option value="si" <?php  if ($language == "si") echo "selected";?>>Slovenian</option>
 <option value="es" <?php  if ($language == "es") echo "selected";?>>Spanish</option>
 <option value="se" <?php  if ($language == "se") echo "selected";?>>Swedish</option>
 <option value="tr" <?php  if ($language == "tr") echo "selected";?>>Turkish</option>

@@ -29,6 +29,7 @@ $sph_messages =  Array (
   "orSearch" => "OR vyh¾adávanie",    
   "phraseSearch" => "Vyh¾adávanie frázy",
   "show" => "Zobrazi ",
-  "resultsPerPage" => "výsledkov na stránku"
+  "resultsPerPage" => "výsledkov na stránku",
+	"DidYouMean" => "Did you mean"
 );
 ?>

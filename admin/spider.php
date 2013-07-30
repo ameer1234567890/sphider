@@ -257,7 +257,7 @@
 
 
 				if ($data['nofollow'] != 1) {
-					$links = get_links($file, $url, $can_leave_domain);
+					$links = get_links($file, $url, $can_leave_domain, $data['base']);
 					$links = distinct_array($links);
 					$all_links = count($links);
 					$numoflinks = 0;

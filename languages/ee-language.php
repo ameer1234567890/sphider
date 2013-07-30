@@ -22,6 +22,7 @@ $sph_messages =  Array (
 	"orSearch" => "VÕI otsing",    
 	"phraseSearch" => "Fraasiotsing",
 	"show" => "Näita ",
-	"resultsPerPage" => "vastet"
+	"resultsPerPage" => "vastet",
+	"DidYouMean" => "Did you mean"
 );
 ?>

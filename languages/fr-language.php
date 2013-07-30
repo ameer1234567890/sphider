@@ -21,7 +21,8 @@ $sph_messages =  Array (
 	"orSearch" => "Recherche OU",    
 	"phraseSearch" => "Recherche d'expression",
 	"show" => "Montrer ",
-	"resultsPerPage" => "résultats par page"
+	"resultsPerPage" => "résultats par page",
+	"DidYouMean" => "Did you mean"
 
 );
 ?>

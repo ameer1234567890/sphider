@@ -24,6 +24,7 @@ $sph_messages =  Array (
 	"orSearch" => "Искать любое из слов",
 	"phraseSearch" => "Искать фразу",
 	"show" => "Показать ",
-	"resultsPerPage" => "результатов на странице"
+	"resultsPerPage" => "результатов на странице",
+	"DidYouMean" => "Did you mean"
 );
 ?>

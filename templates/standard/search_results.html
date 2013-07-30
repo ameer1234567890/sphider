@@ -5,7 +5,7 @@ extract($search_results);
 
 <?php if ($search_results['did_you_mean']){?>
 	<div id="did_you_mean">
-	Did you mean: <a href="<?php print 'search.php?query='.quote_replace(addmarks($search_results['did_you_mean'])).'&search=1'?>"><?php print $search_results['did_you_mean_b']; ?></a>?
+	<?php echo $sph_messages['DidYouMean'];?>: <a href="<?php print 'search.php?query='.quote_replace(addmarks($search_results['did_you_mean'])).'&search=1'?>"><?php print $search_results['did_you_mean_b']; ?></a>?
     </div>
 <?php  }?>	
 
@@ -80,8 +80,9 @@ extract($search_results);
 			</div class="idented">
 		<?php }?>
 		<br/>
-	<?php  }
-}?>
+	<?php  }?>
+ </div>
+<?php }?>
 
 <!-- links to other result pages-->
 <?php if (isset($other_pages)) {
@@ -122,4 +123,3 @@ extract($search_results);
 <?php poweredby()?>
 </div>
 
-</div>

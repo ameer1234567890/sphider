@@ -21,6 +21,7 @@ $sph_messages =  Array (
 	"orSearch" => "或搜索",    
 	"phraseSearch" => "詞組搜索",
 	"show" => "顯示 ",
-	"resultsPerPage" => "每頁結果"
+	"resultsPerPage" => "每頁結果",
+	"DidYouMean" => "Did you mean"
 );
 ?>
