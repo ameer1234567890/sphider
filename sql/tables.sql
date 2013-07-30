@@ -18,8 +18,8 @@ create table links (
 	indexdate date,
 	size float(2),
 	md5sum varchar(32),
-	key url (url(16)),
-	key md5key (md5sum(16)),
+	key url (url),
+	key md5key (md5sum),
 	visible int default 0, 
 	level int);
 create table keywords	(

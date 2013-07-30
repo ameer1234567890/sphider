@@ -136,6 +136,10 @@
 	$tmp_urls  = Array();
 
 
+	function microtime_float(){
+	   list($usec, $sec) = explode(" ", microtime());
+	   return ((float)$usec + (float)$sec);
+	}
 
 	
 	function index_url($url, $level, $site_id, $md5sum, $domain, $indexdate, $sessid, $can_leave_domain, $reindex) {
@@ -146,6 +150,7 @@
 		global $mysql_table_prefix, $user_agent, $tmp_urls, $delay_time, $domain_arr;
 		$needsReindex = 1;
 		$deletable = 0;
+
 		$url_status = url_status($url);
 		$thislevel = $level - 1;
 
@@ -229,8 +234,6 @@
 				$urlparts = parse_url($url);
 				$newdomain = $urlparts['host'];
 				$type = 0;
-
-
 				
 		/*		if ($newdomain <> $domain)
 					$domainChanged = 1;
@@ -251,11 +254,10 @@
 					$deletable = 1;
 					printStandardReport('metaNoindex',$command_line);
 				}
+	
 
 				$wordarray = unique_array(explode(" ", $data['content']));
-
-
-
+	
 				if ($data['nofollow'] != 1) {
 					$links = get_links($file, $url, $can_leave_domain, $data['base']);
 					$links = distinct_array($links);
@@ -284,7 +286,7 @@
 					$host = $data['host'];
 					$path = $data['path'];
 					$fulltxt = $data['fulltext'];
-					$desc = $data['description'];
+					$desc = substr($data['description'], 0,254);
 					$url_parts = parse_url($url);
 					$domain_for_db = $url_parts['host'];
 
@@ -295,6 +297,7 @@
 						$dom_id = mysql_insert_id();
 						$domain_arr[$domain_for_db] = $dom_id;
 					}
+
 					$wordarray = calc_weights ($wordarray, $title, $host, $path, $data['keywords']);
 
 					//if there are words to index, add the link to the database, get its id, and add the word + their relation
@@ -306,7 +309,9 @@
 							echo mysql_error();
 							$row = mysql_fetch_row($result);
 							$link_id = $row[0];
+
 							save_keywords($wordarray, $link_id, $dom_id);
+							
 							printStandardReport('indexed', $command_line);
 						}else if (($md5sum <> '') && ($md5sum <> $newmd5sum)) { //if page has changed, start updating
 
@@ -352,7 +357,13 @@
 
 
 	function index_site($url, $reindex, $maxlevel, $soption, $url_inc, $url_not_inc, $can_leave_domain) {
-		global $mysql_table_prefix, $command_line, $mainurl,  $tmp_urls, $domain_arr;
+		global $mysql_table_prefix, $command_line, $mainurl,  $tmp_urls, $domain_arr, $all_keywords;
+		$result = mysql_query("select keyword_ID, keyword from ".$mysql_table_prefix."keywords");
+		echo mysql_error();
+		while($row=mysql_fetch_array($result)) {
+			$all_keywords[addslashes($row[1])] = $row[0];
+		}
+
 		$compurl = parse_url($url);
 		if ($compurl['path'] == '')
 			$url = $url . "/";
@@ -520,6 +531,7 @@
 					$rows = mysql_num_rows($result);
 					if ($rows == 0) {
 						index_url($thislink, $level+1, $site_id, '',  $domain, '', $sessid, $can_leave_domain, $reindex);
+
 						mysql_query("update ".$mysql_table_prefix."pending set level = $level, count=$count, num=$num where site_id=$site_id");
 						echo mysql_error();
 					}else if ($rows <> 0 && $reindex == 1) {

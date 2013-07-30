@@ -7,7 +7,7 @@
 	</head>
 <body>
 <h2>Sphider installation script.</h2>
-<?php 
+<?
 error_reporting(E_ALL);
 $settings_dir = "../settings";
 include "$settings_dir/database.php";
@@ -39,8 +39,8 @@ mysql_query("create table `".$mysql_table_prefix."links` (
 	indexdate date,
 	size float(2),
 	md5sum varchar(32),
-	key url (url(16)),
-	key md5key (md5sum(16)),
+	key url (url),
+	key md5key (md5sum),
 	visible int default 0, 
 	level int)");
 

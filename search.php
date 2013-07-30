@@ -101,9 +101,8 @@ function getmicrotime(){
 
 function poweredby () {
 	global $sph_messages;
-	?>
-
-		<?php  print $sph_messages['Powered by'];?>  <a href="http://www.cs.ioc.ee/~ando/sphider/"><img src="sphider-logo.png" border="0" style="vertical-align: middle" alt="Sphider"></a>
+    //If you want to remove this, please donate to the project at http://www.sphider.eu/donate.php
+    print $sph_messages['Powered by'];?>  <a href="http://www.sphider.eu/"><img src="sphider-logo.png" border="0" style="vertical-align: middle" alt="Sphider"></a>
 
     <?php 
 }
@@ -111,8 +110,14 @@ function poweredby () {
 
 function saveToLog ($query, $elapsed, $results) {
         global $mysql_table_prefix;
-	mysql_query("insert into ".$mysql_table_prefix."query_log (query, time, elapsed, results) values ('$query', now(), '$elapsed', '$results')");
+    if ($results =="") {
+        $results = 0;
+    }
+    $query =  "insert into ".$mysql_table_prefix."query_log (query, time, elapsed, results) values ('$query', now(), '$elapsed', '$results')";
+	mysql_query($query);
+                    
 	echo mysql_error();
+                        
 }
 
 switch ($search) {

@@ -109,7 +109,7 @@ if (is_array($values))
 	if (is_array($values)) foreach ($values as $_key => $_val) {
 		$js_array[] = 'new Array("' .str_replace('"','\"',$_key)  . '", " <small><b>' . $_val . '</b> results</small>")';
 	}
-	print "new Array(" . implode(", ", $js_array) . ")";
+	print utf8_encode("new Array(" . implode(", ", $js_array) . ")"); 
 }
 
 ?>
