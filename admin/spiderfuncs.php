@@ -36,8 +36,10 @@ function getFileContents($url) {
 
 	$errno = 0;
 	$errstr = "";
+	print "siin";
 	$fp = @ fsockopen($target, $port, $errno, $errstr, $fsocket_timeout);
 
+	print $errstr;
 	if (!$fp) {
 		$contents['state'] = "NOHOST";
 		printConnectErrorReport($errstr);
@@ -103,7 +105,7 @@ function url_status($url) {
 	$errno = 0;
 	$errstr = "";
 	$fp = fsockopen($target, $port, $errno, $errstr, $fsocket_timeout);
-
+	print $errstr;
 	$linkstate = "ok";
 	if (!$fp) {
 		$status['state'] = "NOHOST";
@@ -236,7 +238,14 @@ function remove_file_from_url($url) {
 		$check = $file.'$';
 		$path = preg_replace("/$check"."/i", "", $path);
 	}
-	$url = $url_parts['scheme']."://".$url_parts['host'].$path;
+
+	if ($url_parts['port'] == 80 || $url_parts['port'] == "") {
+		$portq = "";
+	} else {
+		$portq = ":".$url_parts['port'];
+	}
+
+	$url = $url_parts['scheme']."://".$url_parts['host'].$portq.$path;
 	return $url;
 }
 
@@ -443,7 +452,12 @@ function url_purify($url, $parent_url, $can_leave_domain) {
 	if (isset($url_parts['query'])) {
 		$query = "?".$url_parts['query'];
 	}
-	$url = $url_parts['scheme']."://".$url_parts['host'].$urlpath.$query;
+	if ($main_url_parts['port'] == 80 || $url_parts['port'] == "") {
+		$portq = "";
+	} else {
+		$portq = ":".$main_url_parts['port'];
+	}
+	$url = $url_parts['scheme']."://".$url_parts['host'].$portq.$urlpath.$query;
 
 	//if we index sub-domains
 	if ($can_leave_domain == 1) {
@@ -457,9 +471,9 @@ function url_purify($url, $parent_url, $can_leave_domain) {
 	}
 	//only urls in staying in the starting domain/directory are followed	
 	$url = convert_url($url);
-	if (strstr($url, $mainurl) == false)
+	if (strstr($url, $mainurl) == false) {
 		return '';
-	else
+	} else
 		return $url;
 }
 
@@ -474,9 +488,16 @@ function save_keywords($wordarray, $link_id, $domain) {
 			$keyword_id = $all_keywords[$word];
 			if ($keyword_id  == "") {
                 mysql_query("insert into ".$mysql_table_prefix."keywords (keyword) values ('$word')");
+				if (mysql_errno() == 1062) { 
+					$result = mysql_query("select keyword_ID from ".$mysql_table_prefix."keywords where keyword='$word'");
+					echo mysql_error();
+					$row = mysql_fetch_row($result);
+					$keyword_id = $row[0];
+				} else{
 				$keyword_id = mysql_insert_id();
 				$all_keywords[$word] = $keyword_id;
 				echo mysql_error();
+			} 
 			} 
 			$inserts[$wordmd5] .= ",($link_id, $keyword_id, $weight, $domain)"; 
 		}
@@ -486,7 +507,8 @@ function save_keywords($wordarray, $link_id, $domain) {
 		$char = dechex($i);
 		$values= substr($inserts[$char], 1);
 		if ($values!="") {
-			mysql_query("insert into ".$mysql_table_prefix."link_keyword$char (link_id, keyword_id, weight, domain) values $values");
+			$query = "insert into ".$mysql_table_prefix."link_keyword$char (link_id, keyword_id, weight, domain) values $values";
+			mysql_query($query);
 			echo mysql_error();
 		}
 		
@@ -555,7 +577,7 @@ function clean_file($file, $url, $type) {
 	//remove filename from path
 	$path = eregi_replace('([^/]+)$', "", $urlparts['path']);
 	$file = preg_replace("/<link rel[^<>]*>/i", " ", $file);
-	$file = preg_replace("@<!--\/sphider_noindex-->.*?<!--sphider_noindex-->@si", " ",$file);	
+	$file = preg_replace("@<!--sphider_noindex-->.*?<!--\/sphider_noindex-->@si", " ",$file);	
 	$file = preg_replace("@<!--.*?-->@si", " ",$file);	
 	$file = preg_replace("@<script[^>]*?>.*?</script>@si", " ",$file);
 	$headdata = get_head_data($file);
@@ -687,34 +709,35 @@ function check_include($link, $inc, $not_inc) {
 	$oklinks = Array ();
 
 	$include = true;
-	foreach ($url_inc as $str) {
+	foreach ($url_not_inc as $str) {
 		$str = trim($str);
 		if ($str != "") {
 			if (substr($str, 0, 1) == '*') {
-				if (!preg_match(substr($str, 1), $link)) {
+				if (preg_match(substr($str, 1), $link)) {
 					$include = false;
 					break;
 				}
 			} else {
-				if (strpos($link, $str) === false) {
+				if (!(strpos($link, $str) === false)) {
 					$include = false;
 					break;
 				}
 			}
 		}
 	}
-	if ($include) {
-		foreach ($url_not_inc as $str) {
+	if ($include && $inc != "") {
+		$include = false;
+		foreach ($url_inc as $str) {
 			$str = trim($str);
 			if ($str != "") {
 				if (substr($str, 0, 1) == '*') {
 					if (preg_match(substr($str, 1), $link)) {
-						$include = false;
-						break;
+						$include = true;
+						break 2;
 					}
 				} else {
-					if (!(strpos($link, $str) === false)) {
-						$include = false;
+					if (strpos($link, $str) !== false) {
+						$include = true;
 						break;
 					}
 				}

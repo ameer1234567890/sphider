@@ -208,14 +208,14 @@
 				$file = $contents['file'];
 			}
 			
-		
+
 			$pageSize = number_format(strlen($file)/1024, 2, ".", "");
 			printPageSizeReport($pageSize);
 
 			if ($url_status['content'] != 'text') {
 				$file = extract_text($file, $url_status['content']);
 			}
-			
+
 			printStandardReport('starting', $command_line);
 		
 
@@ -383,16 +383,6 @@
 		}
 
 		
-		$errno = 0;
-		$errmsg = "";
-		$fp = fsockopen($domain, $port, $errno, $errmsg);
-		if (!$fp) {
-			printConnectErrorReport($errmsg);
-			die();
-		}
-	
-		fclose ($fp);
-	
 	
 		$result = mysql_query("select site_id from ".$mysql_table_prefix."sites where url='$url'");
 		echo mysql_error();

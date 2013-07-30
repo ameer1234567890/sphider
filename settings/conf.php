@@ -9,7 +9,7 @@ General settings
 ***********************/
 
 // Sphider version 
-$version_nr			= '1.3.2';
+$version_nr			= '1.3.3';
 
 //Language of the search page 
 $language			= 'en';
@@ -92,7 +92,7 @@ $xls2csv_path	= 'c:\temp\xls2csv';
 $catppt_path	= 'c:\temp\catppt';
 
 // User agent string 
-$user_agent			 = 'Sphider2';
+$user_agent			 = 'Sphider';
 
 // Minimal delay between page downloads 
 $min_delay			= 0;

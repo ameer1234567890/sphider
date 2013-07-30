@@ -4,7 +4,15 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
-Sphider 1.3.2, release date 03-07-2007
+Sphider 1.3.3, release date 15-09-2007
+    Sphider now also works on ports other than default 80 (Ando Saabas)
+    By default socket connectability checking removed (Ando Saabas)
+    "Url must contain option" now an OR option instead of AND( Ando Saabas)
+    "Duplicate entry" bug fixed (Ando Saabas)
+    Limit max title size in search results (Tec)
+    A bug in "not" words query fixed (Ando Saabas)
+
+Sphider 1.3.2, release date 28-07-2007
     Indexing speed improvements (Ando Saabas)
     Bug with > sign in title fixed (Ando Saabas)
     Accent conversion bug fixed (Ando Saabas)

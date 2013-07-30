@@ -173,7 +173,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 			}
 			$wordmd5 = substr(md5($searchword), 0, 1);
 
-            $query1 = "SELECT link_id from ".$mysql_table_prefix."link_keyword$wordmd5, ".$mysql_table_prefix."keywords where ".$mysql_table_prefix."link_keyword$wordmd5.keyword_id= ".$mysql_table_prefix." keywords.keyword_id and keyword='$searchword'";
+            $query1 = "SELECT link_id from ".$mysql_table_prefix."link_keyword$wordmd5, ".$mysql_table_prefix."keywords where ".$mysql_table_prefix."link_keyword$wordmd5.keyword_id= ".$mysql_table_prefix."keywords.keyword_id and keyword='$searchword'";
 
 			$result = mysql_query($query1);
 
@@ -580,6 +580,10 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 				while (@eregi("[^\>](".$change.")[^\<]", $url2, $regs)) {
 					$url2 = eregi_replace($regs[1], "<b>".$regs[1]."</b>", $url2);
 				}
+			}
+
+			if (strlen($title) > 80) {
+				$title = substr($title, 0,75)."...";
 			}
 
 			$num = $from + $i;
