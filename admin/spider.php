@@ -114,7 +114,7 @@
 				if ($domaincb=='') {
 					$domaincb=0;
 				}
-				if ($depth == -1) {
+				if ($maxlevel == -1) {
 					$soption = 'full';
 				} else {
 					$soption = 'level';

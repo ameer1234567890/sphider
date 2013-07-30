@@ -1,6 +1,6 @@
 <?
 /*******************************************
-* Sphider Version 1.2.x
+* Sphider Version 1.3.x
 * This program is licensed under the GNU GPL.
 * By Ando Saabas          ando(a t)cs.ioc.ee
 ********************************************/
@@ -53,7 +53,9 @@ if (!is_numeric($category)) {
 	$category = "";
 } 
 
-
+if (get_magic_quotes_gpc()!=1) {
+	$catid =addslashes($catid);
+} 
 
 
 if ($_REQUEST['catid']  && is_numeric($catid)) {

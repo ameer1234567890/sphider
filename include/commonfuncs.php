@@ -1,6 +1,6 @@
 <?
 /*******************************************
-* Sphider Version 1.2
+* Sphider Version 1.3.*
 * This program is licensed under the GNU GPL.
 * By Ando Saabas          ando(a t)cs.ioc.ee
 ********************************************/

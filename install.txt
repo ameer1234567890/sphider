@@ -80,17 +80,26 @@ The list of file types that are not checked for indexing are given in admin/ext.
 
 It is possible to spider webpages from the command line, using the syntax:
 
-php spider.php <url> full|<num> [reindex]
+php spider.php <options>
 
-For example, for fully spidering and indexing http://www.domain.com/test.html, type
-php spider.php http://www.domain.com/test.html full
+   where <options> are
 
-If you want to reindex the same url, but only to depth 3, type
-php spider.php http://www.domain.com/test.html 3 reindex 
+-all 		Reindex everything in the database
+-u <url> 		Set the url to index
+-f 		Set indexing depth to full (unlimited depth)
+-d <num> 		Set indexing depth to <num>
+-l 		Allow spider to leave the initial domain
+-r 		Set spider to reindex a site
+-m <string>		Set the string(s) that an url must include (use \n as a delimiter between multiple strings)
+-n <string>		Set the string(s) that an url must not include (use \n as a delimiter between multiple strings)
 
-There is also the "all" option, which indexes/reindexes all sites in the database, using the spidering option given for each particular 
-site:
-php spider.php all
+
+For example, for spidering and indexing http://www.domain.com/test.html to depth 2, use
+php spider.php -u http://www.domain.com/test.html -d 2
+
+If you want to reindex the same url, use
+php spider.php -u http://www.domain.com/test.html -r 
+
 
 5. Keeping pages from being indexed
 * Robots.txt

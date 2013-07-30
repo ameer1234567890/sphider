@@ -1,6 +1,6 @@
 <?
 /*******************************************
-* Sphider Version 1.2.x
+* Sphider Version 1.3.x
 * This program is licensed under the GNU GPL.
 * By Ando Saabas		  ando(a t)cs.ioc.ee
 ********************************************/
@@ -126,7 +126,6 @@ error_reporting(E_ALL ^ E_NOTICE);
 			}
 
 		}
-		
 		return $returnWords;
 
 	}
@@ -172,8 +171,10 @@ error_reporting(E_ALL ^ E_NOTICE);
 			} else {
 				$searchword = addslashes($wordarray[$not_words]);
 			}
-			$query1 = "SELECT link_id from ".$mysql_table_prefix."link_keyword, ".$mysql_table_prefix."keywords where ".$mysql_table_prefix."link_keyword.keyword_id= ".$mysql_table_prefix."keywords.keyword_id and keyword='$searchword'";
-			echo mysql_error();
+			$wordmd5 = substr(md5($searchword), 0, 1);
+
+            $query1 = "SELECT link_id from ".$mysql_table_prefix."link_keyword$wordmd5, ".$mysql_table_prefix."keywords where ".$mysql_table_prefix."link_keyword$wordmd5.keyword_id= ".$mysql_table_prefix." keywords.keyword_id and keyword='$searchword'";
+
 			$result = mysql_query($query1);
 
 			while ($row = mysql_fetch_row($result)) {	
@@ -323,6 +324,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 		if ((count($result_array_full) == 0 || $possible_to_find == 0) && $did_you_mean_enabled == 1) {
 			reset ($searchstr['+']);
 			foreach ($searchstr['+'] as $word) {
+				$word = addslashes($word);
 				$result = mysql_query("select keyword from ".$mysql_table_prefix."keywords where soundex(keyword) = soundex('$word')");
 				$max_distance = 100;
 				$near_word ="";
@@ -460,6 +462,7 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 		$start=1;
 	$result = search($words, $category, $start, $results_per_page, $searchtype, $domain);
 	$query= stripslashes($query);
+
 	$entitiesQuery = htmlspecialchars($query);
 	$full_result['ent_query'] = $entitiesQuery;
 

@@ -1,6 +1,6 @@
 <?
 /*******************************************
-* Sphider Version 1.2
+* Sphider Version 1..3.*
 * This program is licensed under the GNU GPL.
 * By Ando Saabas           ando(a t)cs.ioc.ee
 ********************************************/
@@ -661,6 +661,7 @@ function addcatform($parent) {
 	function indexscreen ($url, $reindex) {
 		global $mysql_table_prefix;
 		$check = "";
+		$levelchecked = "checked";
 		$spider_depth = 2;
 		if ($url=="") {
 			$url = "http://";
@@ -673,6 +674,11 @@ function addcatform($parent) {
 			if (mysql_num_rows($result) > 0) {
 				$row = mysql_fetch_row($result);
 				$spider_depth = $row[0];
+				if ($spider_depth == -1 ) {
+					$fullchecked = "checked";
+					$spider_depth ="";
+					$levelchecked = "";
+				}
 				$must = $row[1];
 				$mustnot = $row[2];
 			}			
@@ -698,8 +704,8 @@ function addcatform($parent) {
 		<form action="spider.php" method="post">
 		<tr><td><b>Address:</b></td><td> <input type="text" name="url" size="48" value=<?print "\"$url\"";?></td></tr>
 		<tr><td><b>Indexing options:</b></td><td>
-		<input type="radio" name="soption" value="full"> Full<br/>
-		<input type="radio" name="soption" value="level" checked>To depth: <input type="text" name="maxlevel" size="2" value="<?print $spider_depth;?>"><br/>
+		<input type="radio" name="soption" value="full" <?=$fullchecked;?>> Full<br/>
+		<input type="radio" name="soption" value="level" <?=$levelchecked;?>>To depth: <input type="text" name="maxlevel" size="2" value="<?print $spider_depth;?>"><br/>
 		<?if ($reindex==1) $check="checked"?>
 		<input type="checkbox" name="reindex" value="1" <?print $check;?>> Reindex<br/>
 		</td></tr>
