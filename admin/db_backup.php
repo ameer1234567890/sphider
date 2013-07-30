@@ -1,4 +1,4 @@
-<?php
+<?php php
 include "auth.php";
 $backup_path="./backup/";
 

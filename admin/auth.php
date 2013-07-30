@@ -1,4 +1,4 @@
-<?
+<?php 
 	error_reporting(E_ERROR | E_PARSE);	
 	$admin = "admin";
 	$admin_pw = "admin";
@@ -42,7 +42,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 	</center>
 	</body>
 	</html>
-	<?
+	<?php 
 	exit();
 }
 

@@ -1,4 +1,4 @@
-<?
+<?php
 /*******************************************
 * Sphider Version 1.3.x
 * This program is licensed under the GNU GPL.
@@ -103,9 +103,9 @@ function poweredby () {
 	global $sph_messages;
 	?>
 
-		<?print $sph_messages['Powered by'];?>  <a href="http://www.cs.ioc.ee/~ando/sphider/"><img src="sphider-logo.png" border="0" style="vertical-align: middle" alt="Sphider"></a>
+		<?php  print $sph_messages['Powered by'];?>  <a href="http://www.cs.ioc.ee/~ando/sphider/"><img src="sphider-logo.png" border="0" style="vertical-align: middle" alt="Sphider"></a>
 
-    <?
+    <?php 
 }
 
 

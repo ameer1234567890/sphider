@@ -1,4 +1,4 @@
-<?
+<?php 
 /*******************************************
 * Sphider Version 1..3.*
 * This program is licensed under the GNU GPL.
@@ -26,7 +26,7 @@ set_time_limit (0);
 <link rel="stylesheet" href="admin.css" type="text/css" />
 </head>
 <body>
-<?
+<?php 
 if (!isset($f)) {
 	$f=2;
 }
@@ -43,7 +43,7 @@ $database_funcs = Array ("database" => "default");
 <div id="admin"> 
 	<div id="tabs">
 		<ul>
-		<?	
+		<?php 	
 		if ($stat_funcs[$f] ) {
 			$stat_funcs[$f] = "selected";
 		} else {
@@ -87,19 +87,19 @@ $database_funcs = Array ("database" => "default");
 		} 
 		?>
 			
-		<li><a href="admin.php?f=2" id="<?=$site_funcs[$f]?>">Sites</a>  </li>
-		<li><a href="admin.php?f=categories" id="<?=$cat_funcs[$f]?>">Categories</a></li> 
-		<li><a href="admin.php?f=index" id="<?=$index_funcs[$f]?>">Index</a></li>
-		<li><a href="admin.php?f=clean" id="<?=$clean_funcs[$f]?>">Clean tables</a> </li>
-		<li><a href="admin.php?f=settings" id="<?=$settings_funcs[$f]?>">Settings</a></li>
-		<li><a href="admin.php?f=statistics" id="<?=$stat_funcs[$f]?>">Statistics</a> </li>
-		<li><a href="admin.php?f=database" id="<?=$database_funcs[$f]?>">Database</a></li>
+		<li><a href="admin.php?f=2" id="<?php print $site_funcs[$f]?>">Sites</a>  </li>
+		<li><a href="admin.php?f=categories" id="<?php print $cat_funcs[$f]?>">Categories</a></li> 
+		<li><a href="admin.php?f=index" id="<?php print $index_funcs[$f]?>">Index</a></li>
+		<li><a href="admin.php?f=clean" id="<?php print $clean_funcs[$f]?>">Clean tables</a> </li>
+		<li><a href="admin.php?f=settings" id="<?php print $settings_funcs[$f]?>">Settings</a></li>
+		<li><a href="admin.php?f=statistics" id="<?php print $stat_funcs[$f]?>">Statistics</a> </li>
+		<li><a href="admin.php?f=database" id="<?php print $database_funcs[$f]?>">Database</a></li>
 		<li><a href="admin.php?f=24" id="default">Log out</a></li>
 		</ul>
 	</div>
 	<div id="main">
 
-<?
+<?php 
 	function list_cats($parent, $lev, $color, $message) {
 		global $mysql_table_prefix;
 		if ($lev == 0) {
@@ -109,7 +109,7 @@ $database_funcs = Array ("database" => "default");
 				<li><a href="admin.php?f=add_cat">Add category</a> </li>
 				</ul>
 			</div>
-			<?
+			<?php 
 			print $message;
 			print "<br/>";
 			print "<br/><div align=\"center\"><center><table cellspacing =\"0\" cellpadding=\"0\" class=\"darkgrey\" width =\"600\"><tr><td><table table cellpadding=\"3\" cellspacing=\"1\" width=\"100%\">\n";
@@ -183,7 +183,7 @@ function addcatform($parent) {
 	?>
 	<div id="submenu">
 	</div>
-	<?
+	<?php 
 	if ($parent=='') 
 		$par='(Top level)';
 	else {
@@ -211,14 +211,14 @@ function addcatform($parent) {
 	}
 
 ?>
-	   <br/><center><table><tr><td valign=top align=center colspan=2><b>Parent: <?print "<a href=admin.php?f=add_cat&parent=$par2num>$par2</a> >".stripslashes($par)?></b></td></tr>
+	   <br/><center><table><tr><td valign=top align=center colspan=2><b>Parent: <?php print "<a href=admin.php?f=add_cat&parent=$par2num>$par2</a> >".stripslashes($par)?></b></td></tr>
 		<form action=admin.php method=post>
    		<input type=hidden name=f value=7>
-   		<input type=hidden name=parent value=<?print $parent?>
+   		<input type=hidden name=parent value="<?php print $parent?>"
 		<tr><td><b>Category:</b></td><td> <input type=text name=category size=40></td></tr>
 		<tr><td></td><td><input type=submit id="submit" value=Add></td></tr></form>
 		
-<?
+<?php 
 	print "<tr><td colspan=2>";
 	$query = "SELECT category_ID, Category FROM ".$mysql_table_prefix."categories WHERE parent_num='$parent'";
 	$result = mysql_query($query);
@@ -237,8 +237,12 @@ function addcatform($parent) {
 			global $mysql_table_prefix;
 			if ($category=="") return;
 		$category = addslashes($category);
-		mysql_query("INSERT INTO ".$mysql_table_prefix."categories (category, parent_num)
-				 VALUES ('$category', '$parent')");
+		if ($parent == "") {
+			$parent = 0;
+		}
+		$query = "INSERT INTO ".$mysql_table_prefix."categories (category, parent_num)
+				 VALUES ('$category', ".$parent.")";
+		mysql_query($query);
 		If (!mysql_error()) {
 			return "<center><b>Category $category added.</b></center>" ;
 		} else {
@@ -260,9 +264,9 @@ function addcatform($parent) {
 		<tr><td><b>Title:</b></td><td></td><td> <input type=text name=title size=60></td></tr>
 		<tr><td><b>Short description:</b></td><td></td><td><textarea name=short_desc cols=45 rows=3 wrap="virtual"></textarea></td></tr>
 		<tr><td>Category:</td><td></td><td>
-		<? walk_through_cats(0, 0, '');?></td></tr>
+		<?php  walk_through_cats(0, 0, '');?></td></tr>
 		<tr><td></td><td></td><td><input type=submit id="submit" value=Add></td></tr></form></table></center></div>
-		<?
+		<?php 
 	}
 
 	function editsiteform($site_id) {
@@ -291,21 +295,21 @@ function addcatform($parent) {
 			<br/><div align=center><center><table>
 			<form action=admin.php method=post>
 			<input type=hidden name=f value=4>
-			<input type=hidden name=site_id value=<?print $site_id;?>>
-			<tr><td><b>URL:</b></td><td align ="right"></td><td><input type=text name=url value=<?print "\"".$row['url']."\""?> size=60></td></tr>
-			<tr><td><b>Title:</b></td><td></td><td> <input type=text name=title value=<?print  "\"".stripslashes($row['title'])."\""?> size=60></td></tr>
-			<tr><td><b>Short description:</b></td><td></td><td><textarea name=short_desc cols=45 rows=3 wrap><?print stripslashes($row['short_desc'])?></textarea></td></tr>
-			<tr><td><b>Spidering options:</b></td><td></td><td><input type="radio" name="soption" value="full" <?print $fullchecked;?>> Full<br/>
-			<input type="radio" name="soption" value="level" <?print $depthchecked;?>>To depth: <input type="text" name="depth" size="2" value="<?print $depth;?>"><br/>
-			<input type="checkbox" name="domaincb" value="1" <?print $domainchecked;?>> Spider can leave domain
+			<input type=hidden name=site_id value=<?php print $site_id;?>>
+			<tr><td><b>URL:</b></td><td align ="right"></td><td><input type=text name=url value=<?php print "\"".$row['url']."\""?> size=60></td></tr>
+			<tr><td><b>Title:</b></td><td></td><td> <input type=text name=title value=<?php print  "\"".stripslashes($row['title'])."\""?> size=60></td></tr>
+			<tr><td><b>Short description:</b></td><td></td><td><textarea name=short_desc cols=45 rows=3 wrap><?php print stripslashes($row['short_desc'])?></textarea></td></tr>
+			<tr><td><b>Spidering options:</b></td><td></td><td><input type="radio" name="soption" value="full" <?php print $fullchecked;?>> Full<br/>
+			<input type="radio" name="soption" value="level" <?php print $depthchecked;?>>To depth: <input type="text" name="depth" size="2" value="<?php print $depth;?>"><br/>
+			<input type="checkbox" name="domaincb" value="1" <?php print $domainchecked;?>> Spider can leave domain
 			</td></tr>			
-			<tr><td><b>URLs must include:</b></td><td></td><td><textarea name=in cols=45 rows=2 wrap="virtual"><?print $row['required'];?></textarea></td></tr>
-			<tr><td><b>URLs must not include:</b></td><td></td><td><textarea name=out cols=45 rows=2 wrap="virtual"><?print $row['disallowed'];?></textarea></td></tr>
+			<tr><td><b>URLs must include:</b></td><td></td><td><textarea name=in cols=45 rows=2 wrap="virtual"><?php print $row['required'];?></textarea></td></tr>
+			<tr><td><b>URLs must not include:</b></td><td></td><td><textarea name=out cols=45 rows=2 wrap="virtual"><?php print $row['disallowed'];?></textarea></td></tr>
 			
 			<tr><td>Category:</td><td></td><td>
-			<? walk_through_cats(0, 0, $site_id);?></td></tr>
+			<?php  walk_through_cats(0, 0, $site_id);?></td></tr>
 			<tr><td></td><td></td><td><input type="submit"  id="submit"  value="Update"></td></tr></form></table></center></div>
-		<?
+		<?php 
 		}
 
 
@@ -351,10 +355,10 @@ function addcatform($parent) {
 		   <div align="center"><center><table>
 			<form action="admin.php" method="post">
 			<input type="hidden" name="f" value="10">
-			<input type="hidden" name="cat_id" value="<? print $cat_id;?>"
-			<tr><td><b>Category:</b></td><td> <input type="text" name="category" value="<?print $category?>"size=40></td></tr>
+			<input type="hidden" name="cat_id" value="<?php  print $cat_id;?>"
+			<tr><td><b>Category:</b></td><td> <input type="text" name="category" value="<?php print $category?>"size=40></td></tr>
 			<tr><td></td><td><input type="submit"  id="submit"  value="Update"></td></tr></form></table></center></div>
-		<?
+		<?php 
 		}
 
 
@@ -379,24 +383,24 @@ function addcatform($parent) {
 		<div id='submenu'>
 		 <ul>
 		  <li><a href='admin.php?f=add_site'>Add site</a> </li>
-		  <?
+		  <?php 
 			if (mysql_num_rows($result) > 0) {
 				?>
 				<li><a href='spider.php?all=1'> Reindex all</a></li>
-				<?
+				<?php 
 			}
 			?>
 		 </ul>
 		</div>
 
-		<?
+		<?php 
 		print $message;
 		print "<br/>";
 		if (mysql_num_rows($result) > 0) {
 			print "<div align=\"center\"><table cellspacing =\"0\" cellpadding=\"0\" class=\"darkgrey\"><tr><td><table cellpadding=\"3\" cellspacing=\"1\">
 			<tr class=\"grey\"><td align=\"center\"><b>Site name</b></td><td align=\"center\"><b>Site url</b></td><td align=\"center\"><b>Last indexed</b></td><td colspan=4></td></tr>\n";
 		} else {
-			?><center><p><b>Welcom to Sphider. <br><br>Choose "Add site" from the submenu to add a new site, or "Index" to directly go to the indexing section.</b></p></center><?
+			?><center><p><b>Welcom to Sphider. <br><br>Choose "Add site" from the submenu to add a new site, or "Index" to directly go to the indexing section.</b></p></center><?php 
 		}
 		$class = "grey";
 		while ($row=mysql_fetch_array($result))	{
@@ -490,7 +494,7 @@ function addcatform($parent) {
 		$del = mysql_affected_rows();
 				?>
 		<div id="submenu">
-		</div><?
+		</div><?php 
 		print "<br/><center><b>Temp table cleared, $del items deleted.</b></center>";
 	}
 
@@ -501,7 +505,7 @@ function addcatform($parent) {
 		$del = mysql_affected_rows();
 		?>
 		<div id="submenu">
-		</div><?
+		</div><?php 
 		print "<br/><center><b>Search log cleared, $del items deleted.</b></center>";
 	}
 
@@ -549,7 +553,7 @@ function addcatform($parent) {
 		}
 		?>
 		<div id="submenu">
-		</div><?
+		</div><?php 
 		print "<br/><center><b>Links table cleaned, $del links deleted.</b></center>";
 	}
 
@@ -573,7 +577,7 @@ function addcatform($parent) {
 			}
 		}?>
 		<div id="submenu">
-		</div><?
+		</div><?php 
 		print "<br/><center><b>Keywords table cleaned, $del keywords deleted.</b></center>";
 	}
 
@@ -688,7 +692,7 @@ function addcatform($parent) {
 		<div id="submenu">
 			<ul>
 				<li>
-				<?
+				<?php 
 				if ($_SESSION['index_advanced']==1){
 					print "<a href='admin.php?f=index&adv=0&url=$advurl'>Hide advanced options</a>";
 				} else {
@@ -702,26 +706,26 @@ function addcatform($parent) {
 		<br/>
 		<div id="indexoptions"><table>
 		<form action="spider.php" method="post">
-		<tr><td><b>Address:</b></td><td> <input type="text" name="url" size="48" value=<?print "\"$url\"";?></td></tr>
+		<tr><td><b>Address:</b></td><td> <input type="text" name="url" size="48" value=<?php print "\"$url\"";?></td></tr>
 		<tr><td><b>Indexing options:</b></td><td>
-		<input type="radio" name="soption" value="full" <?=$fullchecked;?>> Full<br/>
-		<input type="radio" name="soption" value="level" <?=$levelchecked;?>>To depth: <input type="text" name="maxlevel" size="2" value="<?print $spider_depth;?>"><br/>
-		<?if ($reindex==1) $check="checked"?>
-		<input type="checkbox" name="reindex" value="1" <?print $check;?>> Reindex<br/>
+		<input type="radio" name="soption" value="full" <?php print $fullchecked;?>> Full<br/>
+		<input type="radio" name="soption" value="level" <?php print $levelchecked;?>>To depth: <input type="text" name="maxlevel" size="2" value="<?php print $spider_depth;?>"><br/>
+		<?php if ($reindex==1) $check="checked"?>
+		<input type="checkbox" name="reindex" value="1" <?php print $check;?>> Reindex<br/>
 		</td></tr>
-		<?
+		<?php 
 		if ($_SESSION['index_advanced']==1){
 			?>
 			<tr><td></td><td><input type="checkbox" name="domaincb" value="1" > Spider can leave domain <!--a href="javascript:;" onClick="window.open('hmm','newWindow','width=300,height=300,left=600,top=200,resizable');" >?</a--><br/></td></tr>
-			<tr><td><b>URL must include:</b></td><td><textarea name=in cols=35 rows=2 wrap="virtual"><?print $must;?></textarea></td></tr>
-			<tr><td><b>URL must not include:</b></td><td><textarea name=out cols=35 rows=2 wrap="virtual"><?print $mustnot;?></textarea></td></tr>
-			<?
+			<tr><td><b>URL must include:</b></td><td><textarea name=in cols=35 rows=2 wrap="virtual"><?php print $must;?></textarea></td></tr>
+			<tr><td><b>URL must not include:</b></td><td><textarea name=out cols=35 rows=2 wrap="virtual"><?php print $mustnot;?></textarea></td></tr>
+			<?php 
 		}
 		?>
 
 		<tr><td></td><td><input type="submit" id="submit" value="Start indexing"></td></tr>
 		</form></table></div>
-		<?
+		<?php 
 	}
 
 	function siteScreen($site_id, $message)  {
@@ -750,7 +754,7 @@ function addcatform($parent) {
 
 		<div id="submenu">
 		</div>
-		<?print $message;?>
+		<?php print $message;?>
 			<br/>
 
 		<center>
@@ -762,30 +766,30 @@ function addcatform($parent) {
 			<table  cellpadding="5" cellspacing="1" width="640">
 			  <tr >
 				<td class="grey" valign="top" width="20%" align="left">URL:</td>
-				<td class="white" align="left"><a href="<?print  $row['url']; print "\">"; print $row['url'];?></a></td>
+				<td class="white" align="left"><a href="<?php print  $row['url']; print "\">"; print $row['url'];?></a></td>
 			  </tr>
 			<tr>
 				<td class="grey" valign="top" align="left">Title:</td>
-				<td class="white" align="left"><b><?print stripslashes($row['title']);?></b></td>
+				<td class="white" align="left"><b><?php print stripslashes($row['title']);?></b></td>
 			</tr>
 			  <tr>
 				<td class="grey" valign="top" align="left">Description:</td>
-				<td width="80%" class="white"  align="left"><?print stripslashes($row['short_desc']);?></td>
+				<td width="80%" class="white"  align="left"><?php print stripslashes($row['short_desc']);?></td>
 			  </tr>
 			  <tr>
 				<td class="grey" valign="top" align="left">Last indexed:</td>
-				<td class="white"  align="left"><?print $indexstatus;?></td>
+				<td class="white"  align="left"><?php print $indexstatus;?></td>
 			  </tr>
 			</table>
 		</div>
 		</div>
 		<div id= "vertmenu">
 		<ul>
-		 <li><a href=admin.php?f=edit_site&site_id=<?= $row['site_id']?>>Edit</a></li>
-		<li><?print $indexoption?></li>
-		<li><a href=admin.php?f=21&site_id=<?= $row['site_id']?>>Browse pages</a></li>
-		<li><a href=admin.php?f=5&site_id=<?= $row['site_id'];?> onclick="return confirm('Are you sure you want to delete? Index will be lost.')">Delete</a></li>
-		<li><a href=admin.php?f=19&site_id=<?= $row['site_id'];?>>Stats</a></li>
+		 <li><a href=admin.php?f=edit_site&site_id=<?php print  $row['site_id']?>>Edit</a></li>
+		<li><?php print $indexoption?></li>
+		<li><a href=admin.php?f=21&site_id=<?php print  $row['site_id']?>>Browse pages</a></li>
+		<li><a href=admin.php?f=5&site_id=<?php print  $row['site_id'];?> onclick="return confirm('Are you sure you want to delete? Index will be lost.')">Delete</a></li>
+		<li><a href=admin.php?f=19&site_id=<?php print  $row['site_id'];?>>Stats</a></li>
 		</div>
 		</ul>
 		</div>
@@ -793,7 +797,7 @@ function addcatform($parent) {
 		<div class="clear">
 		</div>
 		<br/>
-	<?
+	<?php 
 	}
 
 
@@ -896,14 +900,14 @@ function addcatform($parent) {
 		<div id="submenu"></div>
 		<br/>
 		<center>
-		<b>Pages of site <a href="admin.php?f=20&site_id=<? print $site_id?>"><?print $url;?></a></b><br/>
+		<b>Pages of site <a href="admin.php?f=20&site_id=<?php  print $site_id?>"><?php print $url;?></a></b><br/>
 		<p>
 		<form action="admin.php" method="post">
-		Urls per page: <input type="text" name="per_page" size="3" value="<?print $per_page;?>"> 
-		Url contains: <input type="text" name="filter" size="15" value="<?print $filter;?>"> 
+		Urls per page: <input type="text" name="per_page" size="3" value="<?php print $per_page;?>"> 
+		Url contains: <input type="text" name="filter" size="15" value="<?php print $filter;?>"> 
 		<input type="submit" id="submit" value="Filter">
 		<input type="hidden" name="start" value="1">
-		<input type="hidden" name="site_id" value="<?print $site_id?>">
+		<input type="hidden" name="site_id" value="<?php print $site_id?>">
 		<input type="hidden" name="f" value="21">
 		</form>
 		</p>
@@ -911,7 +915,7 @@ function addcatform($parent) {
 		<table cellspacing ="0" cellpadding="0" class="darkgrey" width ="100%"><tr><td>
 		<table  cellpadding="3" cellspacing="1" width="100%">
 
-		<?
+		<?php 
 		$class = "white";
 		while ($row = mysql_fetch_array($result)) {
 			if ($class =="white") 
@@ -969,11 +973,11 @@ function addcatform($parent) {
 		<tr class="grey"  ><td align="left"><a href="admin.php?f=16" id="small_button">Clean links</a>
 		</td><td align="left"> Delete all links not associated with any site.</td></tr>
 		<tr class="grey"  ><td align="left"><a href="admin.php?f=17" id="small_button">Clear temp tables </a>
-		</td><td align="left"> <?print $temp;?> items in temporary table.</td></tr>
+		</td><td align="left"> <?php print $temp;?> items in temporary table.</td></tr>
 		<tr class="grey"  ><td align="left"><a href="admin.php?f=23" id="small_button">Clear search log </a> 
-		</td><td align="left"><?print $log;?> items in search log.
+		</td><td align="left"><?php print $log;?> items in search log.
 		</td></tr></table>		</td></tr></table></div>
-		<?
+		<?php 
 	}
 
 	function statisticsForm ($type) {
@@ -989,7 +993,7 @@ function addcatform($parent) {
 		</ul>
 		</div>
 		
-		<?
+		<?php 
 			if ($type == "") {
 				$cachedSumQuery = "select sum(length(fulltxt)) from ".$mysql_table_prefix."links";
 				$result=mysql_query("select sum(length(fulltxt)) from ".$mysql_table_prefix."links");
@@ -1052,7 +1056,7 @@ function addcatform($parent) {
 				  <tr class="grey"><td>
 				   <b>Page</b></td>
 				   <td><b>Text size</b></td></tr>
-				<?
+				<?php 
 				$result=mysql_query("select ".$mysql_table_prefix."links.link_id, url, length(fulltxt)  as x from ".$mysql_table_prefix."links order by x desc limit 20");
 				echo mysql_error();
 				while ($row=mysql_fetch_row($result)) {
@@ -1131,7 +1135,7 @@ function addcatform($parent) {
 					?>
 					<br/><br/>
 					<center><b>No saved logs.</b></center>
-					<?
+					<?php 
 				}
 			}
 	
@@ -1179,6 +1183,9 @@ function addcatform($parent) {
 			addcatform ($parent);
 		break;
 		case 7:
+			if (!isset($parent)) {
+				$parent = "";
+			}
 			$message = addcat ($category, $parent);
 			list_cats (0, 0, "white", $message);
 		break;

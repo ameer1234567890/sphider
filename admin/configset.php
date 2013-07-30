@@ -1,4 +1,4 @@
-<?
+<?php 
 include "auth.php";
 if ($_index_numbers=="") {
 	$_index_numbers=0;
@@ -106,7 +106,7 @@ if (isset($Submit)) {
 		print "Configuration file is not writable, chmod 666 conf.php under *nix systems";
 	} else {
 		$fhandle=fopen("../settings/conf.php","wb");
-		fwrite($fhandle,"<?\n");
+		fwrite($fhandle,"<?php \n");
 		fwrite($fhandle,"/***********************\n Sphider configuration file\n***********************/");
 		fwrite($fhandle,"\n\n\n/*********************** \nGeneral settings \n***********************/");
 		fwrite($fhandle, "\n\n// Sphider version \n");
@@ -245,8 +245,8 @@ include "../settings/conf.php";
 </tr>
 
 <tr>
-<td class="left1"><input name="_version_nr" value="<?=$version_nr;?>" type="hidden"> 
-<?=$version_nr;?>
+<td class="left1"><input name="_version_nr" value="<?php print $version_nr;?>" type="hidden"> 
+<?php print $version_nr;?>
 </td>
 <td> Sphider version</td>
 </tr>
@@ -254,27 +254,28 @@ include "../settings/conf.php";
 <tr>
 <td class="left1">
 <SELECT name="_language">
-<option value="ar" <? if ($log_format == "text") echo "selected";?>>Arabic</option>
-<option value="bg" <? if ($language == "bg") echo "selected";?>>Bulgarian</option>
-<option value="hr" <? if ($language == "hr") echo "selected";?>>Croatian</option>
-<option value="cns" <? if ($language == "cns") echo "selected";?>>Simple Chinese</option>
-<option value="cnt" <? if ($language == "cnt") echo "selected";?>>Traditional Chinese</option>
-<option value="nl" <? if ($language == "nl") echo "selected";?>>Dutch</option>
-<option value="en" <? if ($language == "en") echo "selected";?>>English</option>
-<option value="ee" <? if ($language == "ee") echo "selected";?>>Estonian</option>
-<option value="fi" <? if ($language == "fi") echo "selected";?>>Finnish</option>
-<option value="fr" <? if ($language == "fr") echo "selected";?>>French</option>
-<option value="de" <? if ($language == "de") echo "selected";?>>German</option>
-<option value="hu" <? if ($language == "hu") echo "selected";?>>Hungarian</option>
-<option value="it" <? if ($language == "it") echo "selected";?>>Italian</option>
-<option value="lv" <? if ($language == "lv") echo "selected";?>>Latvian</option>
-<option value="pl" <? if ($language == "pl") echo "selected";?>>Polish</option>
-<option value="pt" <? if ($language == "pt") echo "selected";?>>Portuguese</option>
-<option value="ro" <? if ($language == "ro") echo "selected";?>>Romanian</option>
-<option value="ru" <? if ($language == "ru") echo "selected";?>>Russian</option>
-<option value="sk" <? if ($language == "sk") echo "selected";?>>Slovak</option>
-<option value="es" <? if ($language == "es") echo "selected";?>>Spanish</option>
-<option value="se" <? if ($language == "se") echo "selected";?>>Swedish</option>
+<option value="ar" <?php  if ($language == "ar") echo "selected";?>>Arabic</option>
+<option value="bg" <?php  if ($language == "bg") echo "selected";?>>Bulgarian</option>
+<option value="hr" <?php  if ($language == "hr") echo "selected";?>>Croatian</option>
+<option value="cns" <?php  if ($language == "cns") echo "selected";?>>Simple Chinese</option>
+<option value="cnt" <?php  if ($language == "cnt") echo "selected";?>>Traditional Chinese</option>
+<option value="nl" <?php  if ($language == "nl") echo "selected";?>>Dutch</option>
+<option value="en" <?php  if ($language == "en") echo "selected";?>>English</option>
+<option value="ee" <?php  if ($language == "ee") echo "selected";?>>Estonian</option>
+<option value="fi" <?php  if ($language == "fi") echo "selected";?>>Finnish</option>
+<option value="fr" <?php  if ($language == "fr") echo "selected";?>>French</option>
+<option value="de" <?php  if ($language == "de") echo "selected";?>>German</option>
+<option value="hu" <?php  if ($language == "hu") echo "selected";?>>Hungarian</option>
+<option value="it" <?php  if ($language == "it") echo "selected";?>>Italian</option>
+<option value="lv" <?php  if ($language == "lv") echo "selected";?>>Latvian</option>
+<option value="pl" <?php  if ($language == "pl") echo "selected";?>>Polish</option>
+<option value="pt" <?php  if ($language == "pt") echo "selected";?>>Portuguese</option>
+<option value="ro" <?php  if ($language == "ro") echo "selected";?>>Romanian</option>
+<option value="ru" <?php  if ($language == "ru") echo "selected";?>>Russian</option>
+<option value="sk" <?php  if ($language == "sk") echo "selected";?>>Slovak</option>
+<option value="es" <?php  if ($language == "es") echo "selected";?>>Spanish</option>
+<option value="se" <?php  if ($language == "se") echo "selected";?>>Swedish</option>
+<option value="tr" <?php  if ($language == "tr") echo "selected";?>>Turkish</option>
 
 </SELECT>
 
@@ -284,14 +285,14 @@ include "../settings/conf.php";
 <tr>
 <td class="left1">
 <SELECT name="_template">
-<?
+<?php 
 	$directories = get_dir_contents($template_dir);
 	if (count($directories)>0) {
 		for ($i=0; $i<count($directories); $i++) {
 			$dir=$directories[$i];
 			?>
-				<option value="<?=$dir;?>" <? if ($template == $dir) echo "selected";?>><?=$dir;?></option>
-				<?
+				<option value="<?php print $dir;?>" <?php  if ($template == $dir) echo "selected";?>><?php print $dir;?></option>
+				<?php 
 		}
 	}
 ?>
@@ -304,20 +305,20 @@ include "../settings/conf.php";
 
 
 <tr>
-<td class="left1"><input name="_admin_email" value="<?=$admin_email;?>" type="text" id="admin_email" size="20"> </td>
+<td class="left1"><input name="_admin_email" value="<?php print $admin_email;?>" type="text" id="admin_email" size="20"> </td>
 <td> Administrator e-mail address</td>
 </tr>
 
 
 <tr>
-<td class="left1"><input name="_print_results" type="checkbox" id="print_results" value="1" <? if
+<td class="left1"><input name="_print_results" type="checkbox" id="print_results" value="1" <?php  if
 ($print_results==1) echo "checked";?>> </td>
 <td>Print spidering results to standard out</td>
 </tr>
 
 
 <tr>
-<td class="left1"> <input name="_tmp_dir" type="text"  value="<?=$tmp_dir;?>" id="tmp_dir" size="20"></td>
+<td class="left1"> <input name="_tmp_dir" type="text"  value="<?php print $tmp_dir;?>" id="tmp_dir" size="20"></td>
 <td> Temporary directory (absolute or relative to admin directory)</td>
 </tr>
 
@@ -327,28 +328,28 @@ include "../settings/conf.php";
 
 </tr>
 <tr>
-<td class="left1"><input name="_keep_log" type="checkbox" id="keep_log" value="1" <? if
+<td class="left1"><input name="_keep_log" type="checkbox" id="keep_log" value="1" <?php  if
 ($keep_log==1) echo "checked";?>> </td>
 <td> Log spidering results</td>
 </tr>
 
 
 <tr>
-<td class="left1"> <input name="_log_dir" type="text"  value="<?=$log_dir;?>" id="log_dir" size="20"></td>
+<td class="left1"> <input name="_log_dir" type="text"  value="<?php print $log_dir;?>" id="log_dir" size="20"></td>
 <td> Log directory (absolute or relative to admin directory)</td>
 </tr>
 
 <tr>
 <td class="left1">
 <SELECT name="_log_format">
-<option value="text" <? if ($log_format == "text") echo "selected";?>>Text</option>
-<option value="html" <? if ($log_format == "html") echo "selected";?>>Html</option>
+<option value="text" <?php  if ($log_format == "text") echo "selected";?>>Text</option>
+<option value="html" <?php  if ($log_format == "html") echo "selected";?>>Html</option>
 </SELECT></td>
 <td> Log file format</td>
 </tr>
 
 <tr>
-<td class="left1"><input name="_email_log" type="checkbox" id="email_log" value="1" <? if
+<td class="left1"><input name="_email_log" type="checkbox" id="email_log" value="1" <?php  if
 ($email_log==1) echo "checked";?>> </td>
 <td> Send spidering log to e-mail</td>
 </tr>
@@ -361,21 +362,21 @@ include "../settings/conf.php";
 
 <tr>
 <td class="left1"><input name="_min_words_per_page" value=
-"<?=$min_words_per_page;?>" type="text" id=
+"<?php print $min_words_per_page;?>" type="text" id=
 "min_words_per_page" size="5" maxlength="5"></td>
 <td> Required number of words in a page in order to be indexed</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_min_word_length" type="text" value=
-"<?=$min_word_length;?>" id="min_word_length" size="5"
+"<?php print $min_word_length;?>" id="min_word_length" size="5"
 maxlength="2"></td>
 <td> Minimum word length in order to be indexed</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_word_upper_bound" type="text" value=
-"<?=$word_upper_bound;?>" id="word_upper_bound" size="5"
+"<?php print $word_upper_bound;?>" id="word_upper_bound" size="5"
 maxlength="3"></td>
 <td> Keyword weight depending on the number of times it appears in a
 page is capped at this value</td>
@@ -383,13 +384,13 @@ page is capped at this value</td>
 
 <tr>
 <td class="left1"><input
-name="_index_numbers" type="checkbox" value="1" id="index_numbers" <? if
+name="_index_numbers" type="checkbox" value="1" id="index_numbers" <?php  if
 ($index_numbers==1) echo "checked";?>></td>
 <td> Index numbers</td>
 </tr>
 
 <tr>
-<td class="left1"> <input name="_index_host" type="checkbox"  value="1" id="index_host" <? if ($index_host==1)
+<td class="left1"> <input name="_index_host" type="checkbox"  value="1" id="index_host" <?php  if ($index_host==1)
 echo "checked";?>></td>
 <td> Index words in domain name and url path</td>
 </tr>
@@ -398,75 +399,75 @@ echo "checked";?>></td>
 <tr>
 <td class="left1"><input
 name="_index_meta_keywords" type="checkbox"  value="1" id=
-"index_meta_keywords" <? if ($index_meta_keywords==1) echo
+"index_meta_keywords" <?php  if ($index_meta_keywords==1) echo
 "checked";?>></td>
 <td> Index meta keywords</td>
 </tr>
 
 <tr>
-<td class="left1"> <input name="_index_pdf" type="checkbox"  value="1" id="index_pdf" <? if ($index_pdf==1)
+<td class="left1"> <input name="_index_pdf" type="checkbox"  value="1" id="index_pdf" <?php  if ($index_pdf==1)
 echo "checked";?>></td>
 <td> Index PDF files</td>
 </tr>
 
 <tr>
-<td class="left1"> <input name="_index_doc" type="checkbox"  value="1" id="index_doc" <? if ($index_doc==1)
+<td class="left1"> <input name="_index_doc" type="checkbox"  value="1" id="index_doc" <?php  if ($index_doc==1)
 echo "checked";?>></td>
 <td> Index DOC files</td>
 </tr>
 
 
 <tr>
-<td class="left1"> <input name="_index_xls" type="checkbox"  value="1" id="index_xls" <? if ($index_xls==1)
+<td class="left1"> <input name="_index_xls" type="checkbox"  value="1" id="index_xls" <?php  if ($index_xls==1)
 echo "checked";?>></td>
 <td> Index XLS files</td>
 </tr>
 
 <tr>
-<td class="left1"> <input name="_index_ppt" type="checkbox"  value="1" id="index_ppt" <? if ($index_ppt==1)
+<td class="left1"> <input name="_index_ppt" type="checkbox"  value="1" id="index_ppt" <?php  if ($index_ppt==1)
 echo "checked";?>></td>
 <td> Index PPT files</td>
 </tr>
 
 
 <tr>
-<td class="left1"> <input name="_pdftotext_path" type="text"  value="<?=$pdftotext_path;?>" id="pdftotext_path"></td>
+<td class="left1"> <input name="_pdftotext_path" type="text"  value="<?php print $pdftotext_path;?>" id="pdftotext_path"></td>
 <td>Full executable path to PDF converter</td>
 </tr>
 
 <tr>
 <td class="left1"> 
-<input name="_catdoc_path" type="text"  value="<?=$catdoc_path;?>" id="catdoc_path"></td>
+<input name="_catdoc_path" type="text"  value="<?php print $catdoc_path;?>" id="catdoc_path"></td>
 <td>Full executable path to catdoc converter </td>
 </tr>
 
 <tr>
-<td class="left1"> <input name="_xls2csv_path" type="text"  value="<?=$xls2csv_path;?>" id="xls2csv_path"></td>
+<td class="left1"> <input name="_xls2csv_path" type="text"  value="<?php print $xls2csv_path;?>" id="xls2csv_path"></td>
 <td>Full executable path to XLS converter</td>
 </tr>
 
 <tr>
 <td class="left1"> 
-<input name="_catppt_path" type="text"  value="<?=$catppt_path;?>" id="catppt_path"></td>
+<input name="_catppt_path" type="text"  value="<?php print $catppt_path;?>" id="catppt_path"></td>
 <td>Full executable path to PPT converter </td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_user_agent" value=
-"<?=$user_agent;?>" type="text" id="user_agent" size="20"></td>
+"<?php print $user_agent;?>" type="text" id="user_agent" size="20"></td>
 <td> User agent string</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_min_delay" value=
-"<?=$min_delay;?>" type="text" id="min_delay" size="5"></td>
+"<?php print $min_delay;?>" type="text" id="min_delay" size="5"></td>
 <td> Minimal delay between page downloads</td>
 </tr>
 
 <tr>
 <td class="left1"><input
 name="_stem_words" type="checkbox"  value="1" id=
-"stem_words" <? if ($stem_words==1) echo
+"stem_words" <?php  if ($stem_words==1) echo
 "checked";?>></td>
 <td> Use word stemming (e.g. find sites containing "runs" and "running" when searching for "run"). Should be enabled <i>before</i> indexing.</td>
 </tr>
@@ -474,7 +475,7 @@ name="_stem_words" type="checkbox"  value="1" id=
 <tr>
 <td class="left1"><input
 name="_strip_sessids" type="checkbox"  value="1" id=
-"strip_sessids" <? if ($strip_sessids==1) echo
+"strip_sessids" <?php  if ($strip_sessids==1) echo
 "checked";?>></td>
 <td> Strip session ids (PHPSESSID, JSESSIONID, ASPSESSIONID, sid).</td>
 </tr>
@@ -486,23 +487,23 @@ name="_strip_sessids" type="checkbox"  value="1" id=
 
 <tr>
 <td class="left1"> <input type=
-"radio" name="_results_per_page" value="10"<? if ($results_per_page==10) echo
-"checked";?>>10 <input type="radio" name="_results_per_page" value="20"<? if
+"radio" name="_results_per_page" value="10"<?php  if ($results_per_page==10) echo
+"checked";?>>10 <input type="radio" name="_results_per_page" value="20"<?php  if
 ($results_per_page==20) echo "checked";?>>20 <input type="radio"
-name="_results_per_page" value="50"<? if ($results_per_page==50) echo
+name="_results_per_page" value="50"<?php  if ($results_per_page==50) echo
 "checked";?>>50</td>
 <td> Default results per page</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_cat_columns" type="text" id="cat_columns" value=
-"<?=$cat_columns;?>" size="5" maxlength="2"> </td>
+"<?php print $cat_columns;?>" size="5" maxlength="2"> </td>
 <td> Number of columns in category list. If you increase this, you might also want to increase the category table with in the css file.</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_bound_search_result" type="text" value=
-"<?=$bound_search_result;?>" id="bound_search_results" size=
+"<?php print $bound_search_result;?>" id="bound_search_results" size=
 "5"></td>
 <td> Bound number of search results. Can speed up searches on large
 database (should be 0)</td>
@@ -510,14 +511,14 @@ database (should be 0)</td>
 
 <tr>
 <td class="left1"><input name="_length_of_link_desc" type="text" value=
-"<?=$length_of_link_desc;?>" id="length_of_link_desc" size=
+"<?php print $length_of_link_desc;?>" id="length_of_link_desc" size=
 "5" maxlength="4"> </td>
 <td> The length of the description string queried from the database when displaying search results.  Can significantly speed up searching on very slow machines, if set to a lower value (eg 250 or 1000; 0 is unlimited), otherwise doesn't have an effect.</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_links_to_next" type="text" value=
-"<?=$links_to_next;?>" id="links_to_next" size="5" maxlength=
+"<?php print $links_to_next;?>" id="links_to_next" size="5" maxlength=
 "2"> </td>
 <td> Number of links shown to "next" pages</td>
 </tr>
@@ -525,7 +526,7 @@ database (should be 0)</td>
 <tr>
 <td class="left1">
 <input name="_show_meta_description" type="checkbox"   value="1" id=
-"show_meta_description" <? if ($show_meta_description==1) echo
+"show_meta_description" <?php  if ($show_meta_description==1) echo
 "checked";?>> </td>
 <td> Show meta description in results page if it exists, otherwise
 show an extract from the page text.</td>
@@ -534,34 +535,34 @@ show an extract from the page text.</td>
 <tr>
 <td class="left1">
  <input
-name="_advanced_search" type="checkbox"  value="1" id="advanced_search" <? if
+name="_advanced_search" type="checkbox"  value="1" id="advanced_search" <?php  if
 ($advanced_search==1) echo "checked";?>></td>
 <td>Advanced search (shows and/or) </td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_show_query_scores" type="checkbox" value="1" id="show_query_scores" <?
+name="_show_query_scores" type="checkbox" value="1" id="show_query_scores" <?php 
 if ($show_query_scores==1) echo "checked";?>> </td>
 <td> Show query scores</td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_show_categories" type="checkbox" value="1" id="show_categories" <?
+name="_show_categories" type="checkbox" value="1" id="show_categories" <?php 
 if ($show_categories==1) echo "checked";?>> </td>
 <td> Show categories</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_desc_length" type="text" id="desc_length" size="5"
-maxlength="4" value="<?=$desc_length;?>"> </td>
+maxlength="4" value="<?php print $desc_length;?>"> </td>
 <td> Maximum length of page summary displayed in search results</td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_did_you_mean_enabled" type="checkbox" value="1" id="did_you_mean_enabled" <?
+name="_did_you_mean_enabled" type="checkbox" value="1" id="did_you_mean_enabled" <?php 
 if ($did_you_mean_enabled==1) echo "checked";?>> </td>
 <td> Enable spelling suggestions (Did you mean...)</td>
 </tr>
@@ -569,7 +570,7 @@ if ($did_you_mean_enabled==1) echo "checked";?>> </td>
 
 <tr>
 <td class="left1"> <input
-name="_merge_site_results" type="checkbox" value="1" id="merge_site_results" <?
+name="_merge_site_results" type="checkbox" value="1" id="merge_site_results" <?php 
 if ($merge_site_results==1) echo "checked";?>> </td>
 <td> Show only the 2 most relevant links from each site (a la google)</td>
 </tr>
@@ -582,35 +583,35 @@ if ($merge_site_results==1) echo "checked";?>> </td>
 
 <tr>
 <td class="left1"> <input
-name="_suggest_enabled" type="checkbox" value="1" id="_suggest_enabled" <?
+name="_suggest_enabled" type="checkbox" value="1" id="_suggest_enabled" <?php 
 if ($suggest_enabled==1) echo "checked";?>> </td>
 <td> Enable Sphider Suggest </td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_suggest_history" type="checkbox" value="1" id="_suggest_history" <?
+name="_suggest_history" type="checkbox" value="1" id="_suggest_history" <?php 
 if ($suggest_history==1) echo "checked";?>> </td>
 <td> Search for suggestions in query log</td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_suggest_keywords" type="checkbox" value="1" id="_suggest_keywords" <?
+name="_suggest_keywords" type="checkbox" value="1" id="_suggest_keywords" <?php 
 if ($suggest_keywords==1) echo "checked";?>> </td>
 <td> Search for suggestions in keywords</td>
 </tr>
 
 <tr>
 <td class="left1"> <input
-name="_suggest_phrases" type="checkbox" value="1" id="_suggest_phrases" <?
+name="_suggest_phrases" type="checkbox" value="1" id="_suggest_phrases" <?php 
 if ($suggest_phrases==1) echo "checked";?>> </td>
 <td> Search for suggestions in phrases</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_suggest_rows" type="text" id="_suggest_rows" size="3"
-maxlength="2" value="<?=$suggest_rows;?>"> </td>
+maxlength="2" value="<?php print $suggest_rows;?>"> </td>
 <td> Limit number of suggestions</td>
 </tr>
 
@@ -624,26 +625,26 @@ maxlength="2" value="<?=$suggest_rows;?>"> </td>
 
 <tr>
 <td class="left1"><input name="_title_weight" type="text" id="title_weight" size=
-"5" maxlength="2" value="<?=$title_weight;?>"> </td>
+"5" maxlength="2" value="<?php print $title_weight;?>"> </td>
 <td> Relative weight of a word in the title of a webpage</td>
 </tr>
 
 
 <tr>
 <td class="left1"><input name="_domain_weight" type="text" id="domain_weight"
-size="5" maxlength="2" value="<?=$domain_weight;?>"> </td>
+size="5" maxlength="2" value="<?php print $domain_weight;?>"> </td>
 <td> Relative weight of a word in the domain name</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_path_weight" type="text" id="path_weight" size="5"
-maxlength="2" value="<?=$path_weight;?>"> </td>
+maxlength="2" value="<?php print $path_weight;?>"> </td>
 <td> Relative weight of a word in the path name</td>
 </tr>
 
 <tr>
 <td class="left1"><input name="_meta_weight" type="text" id="meta_weight" size="5"
-maxlength="2" value="<?=$meta_weight;?>"> </td>
+maxlength="2" value="<?php print $meta_weight;?>"> </td>
 <td> Relative weight of a word in meta_keywords</td>
 </tr>
 

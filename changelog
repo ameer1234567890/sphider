@@ -4,6 +4,12 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
+Sphider 1.3.1d, release date 10-11-2006
+    Spaces in urls are now treated properly (Ando Saabas)
+    Script now also works with short tags turned off (Ando Saabas)
+    Turksih language file added (Ibrahim Kaplan)
+
+
 Sphider 1.3.1c, release date 30-08-2006
     Bug with unique word counting fixed (Adam Schneider)
     Latvian language file added (Kaspars)

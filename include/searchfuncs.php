@@ -1,4 +1,4 @@
-<?
+<?php 
 /*******************************************
 * Sphider Version 1.3.x
 * This program is licensed under the GNU GPL.

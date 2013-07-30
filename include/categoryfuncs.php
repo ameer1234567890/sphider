@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function get_categories_view() {
 	global $mysql_table_prefix;

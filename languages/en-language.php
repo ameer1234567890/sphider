@@ -1,4 +1,4 @@
-<?
+<?php 
 // Strings starting with '%'  will be automatically replaced by script. Do not translate these
 $sph_messages =  Array (
 	"Categories" => "Categories",

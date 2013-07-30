@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 error_reporting (E_ALL ^ E_NOTICE);
 extract($_POST);
@@ -46,7 +46,7 @@ function checkAll(theForm, cName, allNo_stat) {
   <TABLE WIDTH="94%">
 	 <TR> 
 	  <TD valign="top"><center> 
-		<?php
+		<?php 
 		  if (!get_extension_funcs('zlib'))  {
 			 echo "Compression module status notice: <font color='red'>Zlib is NOT installed on the server! Backup disabled!";
 		  } ?>

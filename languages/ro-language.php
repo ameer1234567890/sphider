@@ -1,5 +1,5 @@
 
-<?
+<?php 
 $sph_messages =  Array (
 	"Categories" => "Categorie",
 	"CATEGORIES" => "CATEGORII",

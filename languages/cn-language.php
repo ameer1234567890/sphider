@@ -1,4 +1,4 @@
-<?
+<?php 
 $sph_messages =  Array (
 	"Categories" => "类别",
 	"CATEGORIES" => "类别",

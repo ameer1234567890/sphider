@@ -1,4 +1,4 @@
-<?
+<?php 
 function getFileContents($url) {
 	global $user_agent;
 	$urlparts = parse_url($url);
@@ -252,10 +252,10 @@ function get_links($file, $url, $can_leave_domain) {
 	while (list ($id, $chunk) = each($chunklist)) {
 
 		if (stristr($chunk, "href")) {
-			while (preg_match("/(href)\s*=\s*[\'\"]?(([[a-z]{3,5}:\/\/(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%\/\?~=&;\\\(\),._a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?(\s*rel\s*=\s*[\'\"]?(nofollow)[\'\"]?)?/i", $chunk, $regs)) {
+			while (preg_match("/(href)\s*=\s*[\'\"]?(([[a-z]{3,5}:\/\/(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%\/\?~=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?(\s*rel\s*=\s*[\'\"]?(nofollow)[\'\"]?)?/i", $chunk, $regs)) {
 				if (!isset ($regs[10])) { //if nofollow is not set
 					if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
-						$links[] = $a;
+						$links[] = str_replace(" ", "%20", $a);
 				}
 				$pos = strpos ($chunk, $regs[0]);
 				$chunk = substr($chunk, $pos + strlen($regs[0]));
@@ -264,36 +264,36 @@ function get_links($file, $url, $can_leave_domain) {
 		}
 
 		if (stristr($chunk, "frame") && stristr($chunk, "src")) {
-			while (eregi("(frame[^>]*src[[:blank:]]*)=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
+			while (eregi("(frame[^>]*src[[:blank:]]*)=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
 				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
-					$links[] = $a;
+					$links[] = str_replace(" ", "%20", $a);
 
 				$chunk = str_replace($regs[0], "", $chunk);
 			}
 		}
 
 		if (stristr($chunk, "window") && stristr($chunk, "location")) {
-			while (eregi("(window[.]location)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
+			while (eregi("(window[.]location)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
 				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
-					$links[] = $a;
+					$links[] = str_replace(" ", "%20", $a);
 
 				$chunk = str_replace($regs[0], "", $chunk);
 			}
 		}
 
 		if (stristr($chunk, "http-equiv")) {
-			while (eregi("(http-equiv=['\"]refresh['\"] *content=['\"][0-9]+;url)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
+			while (eregi("(http-equiv=['\"]refresh['\"] *content=['\"][0-9]+;url)[[:blank:]]*=[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
 				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
-					$links[] = $a;
+					$links[] = str_replace(" ", "%20", $a);
 
 				$chunk = str_replace($regs[0], "", $chunk);
 			}
 		}
 
 		if (stristr($chunk, "window") && stristr($chunk, "open")) {
-			while (eregi("(window[.]open[[:blank:]]*[(])[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
+			while (eregi("(window[.]open[[:blank:]]*[(])[[:blank:]]*[\'\"]?(([[a-z]{3,5}://(([.a-zA-Z0-9-])+(:[0-9]+)*))*([+:%/?=&;\\\(\),._ a-zA-Z0-9-]*))(#[.a-zA-Z0-9-]*)?[\'\" ]?", $chunk, $regs)) {
 				if (($a = url_purify($regs[2], $url, $can_leave_domain)) != '')
-					$links[] = $a;
+					$links[] = str_replace(" ", "%20", $a);
 
 				$chunk = str_replace($regs[0], "", $chunk);
 			}
