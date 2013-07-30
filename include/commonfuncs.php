@@ -279,7 +279,9 @@ function get_dir_contents($dir) {
 	return $contents;
 }
 
-
+function replace_ampersand($str) {
+	return str_replace("&", "%26", $str);
+}
 
 
 

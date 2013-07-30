@@ -4,6 +4,10 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
+
+Sphider 1.3.1e, release date 22-11-2006
+    Problem with reaching urls where trailing slash after domain has been omitted fixed (Ando Saabas)
+
 Sphider 1.3.1d, release date 10-11-2006
     Spaces in urls are now treated properly (Ando Saabas)
     Script now also works with short tags turned off (Ando Saabas)

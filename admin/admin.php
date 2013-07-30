@@ -733,9 +733,10 @@ function addcatform($parent) {
 		$result = mysql_query("SELECT site_id, url, title, short_desc, indexdate from ".$mysql_table_prefix."sites where site_id=$site_id");
 		echo mysql_error();
 		$row=mysql_fetch_array($result);
+		$url = replace_ampersand($row[url]);
 		if ($row['indexdate']=='') {
 			$indexstatus="<font color=\"red\">Not indexed</font>";
-			$indexoption="<a href=\"admin.php?f=index&url=$row[url]\">Index</a>";
+			$indexoption="<a href=\"admin.php?f=index&url=$url\">Index</a>";
 		} else {
 			$site_id = $row['site_id'];
 			$result2 = mysql_query("SELECT site_id from ".$mysql_table_prefix."pending where site_id =$site_id");
@@ -743,11 +744,11 @@ function addcatform($parent) {
 			$row2=mysql_fetch_array($result2);
 			if ($row2['site_id'] == $row['site_id']) {
 				$indexstatus = "Unfinished";
-				$indexoption="<a href=\"admin.php?f=index&url=$row[url]\">Continue indexing</a>";
+				$indexoption="<a href=\"admin.php?f=index&url=$url\">Continue indexing</a>";
 
 			} else {
 				$indexstatus = $row['indexdate'];
-				$indexoption="<a href=\"admin.php?f=index&url=$row[url]&reindex=1\">Re-index</a>";
+				$indexoption="<a href=\"admin.php?f=index&url=$url&reindex=1\">Re-index</a>";
 			}
 		}
 		?>
