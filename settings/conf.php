@@ -9,7 +9,7 @@ General settings
 ***********************/
 
 // Sphider version 
-$version_nr			= '1.3.3';
+$version_nr			= '1.3.5';
 
 //Language of the search page 
 $language			= 'en';
@@ -144,7 +144,7 @@ $desc_length		= 250;
 $merge_site_results		= 0;
 
 // Enable spelling suggestions (Did you mean...)
-$did_you_mean_enabled	= 0;
+$did_you_mean_enabled	= 1;
 
 // Enable Sphider Suggest 
 $suggest_enabled		= 1;

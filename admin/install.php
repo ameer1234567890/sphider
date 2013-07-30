@@ -7,7 +7,7 @@
 	</head>
 <body>
 <h2>Sphider installation script.</h2>
-<?
+<?php
 error_reporting(E_ALL);
 $settings_dir = "../settings";
 include "$settings_dir/database.php";

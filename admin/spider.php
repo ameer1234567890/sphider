@@ -155,7 +155,7 @@
 		$thislevel = $level - 1;
 
 		if (strstr($url_status['state'], "Relocation")) {
-			$url = eregi_replace(" ", "", url_purify($url_status['path'], $url, $can_leave_domain));
+			$url = preg_replace("/ /", "", url_purify($url_status['path'], $url, $can_leave_domain));
 
 			if ($url <> '') {
 				$result = mysql_query("select link from ".$mysql_table_prefix."temp where link='$url' && id = '$sessid'");

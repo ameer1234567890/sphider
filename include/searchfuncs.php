@@ -42,7 +42,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 	}
 
 	function addmarks($a) {
-		$a = eregi_replace("[ ]+", " ", $a);
+		$a = preg_replace("/[ ]+/", " ", $a);
 		$a = str_replace(" +", "+", $a);
 		$a = str_replace(" ", "+", $a);
 		return $a;
@@ -51,15 +51,15 @@ error_reporting(E_ALL ^ E_NOTICE);
 	function makeboollist($a) {
 		global $entities, $stem_words;
 		while ($char = each($entities)) {
-			$a = eregi_replace($char[0], $char[1], $a);
+			$a = preg_replace("/".$char[0]."/i", $char[1], $a);
 		}
 		$a = trim($a);
 
-		$a = eregi_replace("&quot;", "\"", $a);
+		$a = preg_replace("/&quot;/i", "\"", $a);
 		$returnWords = array();
 		//get all phrases
 		$regs = Array();
-		while (eregi("([-]?)\"([^\"]+)\"", $a, $regs)) {
+		while (preg_match("/([-]?)\"([^\"]+)\"/", $a, $regs)) {
 			if ($regs[1] == '') {
 				$returnWords['+s'][] = $regs[2];
 				$returnWords['hilight'][] = $regs[2];
@@ -68,7 +68,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 			}
 			$a = str_replace($regs[0], "", $a);
 		}
-		$a = strtolower(eregi_replace("[ ]+", " ", $a));
+		$a = strtolower(preg_replace("/[ ]+/", " ", $a));
 //		$a = remove_accents($a);
 		$a = trim($a);
 		$words = explode(' ', $a);
@@ -107,7 +107,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 		//add words from phrases to includes
 		if (isset($returnWords['+s'])) {
 			foreach ($returnWords['+s'] as $phrase) {
-				$phrase = strtolower(eregi_replace("[ ]+", " ", $phrase));
+				$phrase = strtolower(preg_replace("/[ ]+/", " ", $phrase));
 				$phrase = trim($phrase);
 				$temparr = explode(' ', $phrase);
 				foreach ($temparr as $w)
@@ -139,7 +139,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 		} else {
 			$pattern = "[a-z]+";
 		}
-		if (strlen($word) < $min_word_length || (!eregi($pattern, remove_accents($word))) || ($common[$word] == 1)) {
+		if (strlen($word) < $min_word_length || (!preg_match("/".$pattern."/i", remove_accents($word))) || ($common[$word] == 1)) {
 			return 1;
 		} else {
 			return 0;
@@ -478,8 +478,8 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 
 
 	if (isset($result['did_you_mean'])) {
-		$did_you_mean_b=$query;
-		$did_you_mean=$query;
+		$did_you_mean_b=$entitiesQuery;
+		$did_you_mean=$entitiesQuery;
 		while (list($key, $val) = each($result['did_you_mean'])) {
 			if ($key != $val) {
 				$did_you_mean_b = str_replace($key, "<b>$val</b>", $did_you_mean_b);
@@ -574,16 +574,16 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 				$title = substr($title, 0,76)."...";
 			}
 			foreach($words['hilight'] as $change) {
-				while (@eregi("[^\>](".$change.")[^\<]", " ".$title." ", $regs)) {
-					$title = eregi_replace($regs[1], "<b>".$regs[1]."</b>", $title);
+				while (preg_match("/[^\>](".$change.")[^\<]/i", " ".$title." ", $regs)) {
+					$title = preg_replace("/".$regs[1]."/i", "<b>".$regs[1]."</b>", $title);
 				}
 
-				while (@eregi("[^\>](".$change.")[^\<]", " ".$fulltxt." ", $regs)) {
-					$fulltxt = eregi_replace($regs[1], "<b>".$regs[1]."</b>", $fulltxt);
+				while (preg_match("/[^\>](".$change.")[^\<]/i", " ".$fulltxt." ", $regs)) {
+					$fulltxt = preg_replace("/".$regs[1]."/i", "<b>".$regs[1]."</b>", $fulltxt);
 				}
 				$url2 = $url;
-				while (@eregi("[^\>](".$change.")[^\<]", $url2, $regs)) {
-					$url2 = eregi_replace($regs[1], "<b>".$regs[1]."</b>", $url2);
+				while (preg_match("/[^\>](".$change.")[^\<]/i", $url2, $regs)) {
+					$url2 = preg_replace("/".$regs[1]."/i", "<b>".$regs[1]."</b>", $url2);
 				}
 			}
 
@@ -611,7 +611,7 @@ function get_search_results($query, $start, $category, $searchtype, $results, $d
 	$next = $start + 1;
 	$full_result['next'] = $next;
 	$full_result['start'] = $start;
-	$full_result['query'] = $query;
+	$full_result['query'] = $entitiesQuery;
 
 	if ($from <= $to) {
 

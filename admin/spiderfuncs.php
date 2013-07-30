@@ -36,7 +36,6 @@ function getFileContents($url) {
 
 	$errno = 0;
 	$errstr = "";
-	print "siin";
 	$fp = @ fsockopen($target, $port, $errno, $errstr, $fsocket_timeout);
 
 	print $errstr;
@@ -115,7 +114,7 @@ function url_status($url) {
 		fputs($fp, $request);
 		$answer = fgets($fp, 4096);
 		$regs = Array ();
-		if (ereg("HTTP/[0-9.]+ (([0-9])[0-9]{2})", $answer, $regs)) {
+		if (preg_match("/HTTP/[0-9.]+ (([0-9])[0-9]{2})/", $answer, $regs)) {
 			$httpcode = $regs[2];
 			$full_httpcode = $regs[1];
 
@@ -129,25 +128,25 @@ function url_status($url) {
 			while ($answer) {
 				$answer = fgets($fp, 4096);
 
-				if (ereg("Location: *([^\n\r ]+)", $answer, $regs) && $httpcode == 3 && $full_httpcode != 302) {
+				if (preg_match("/Location: *([^\n\r ]+)/", $answer, $regs) && $httpcode == 3 && $full_httpcode != 302) {
 					$status['path'] = $regs[1];
 					$status['state'] = "Relocation: http $full_httpcode";
 					fclose($fp);
 					return $status;
 				}
 
-				if (eregi("Last-Modified: *([a-z0-9,: ]+)", $answer, $regs)) {
+				if (preg_match("/Last-Modified: *([a-z0-9,: ]+)/i", $answer, $regs)) {
 					$status['date'] = $regs[1];
 				}
 
-				if (eregi("Content-Type:", $answer)) {
+				if (preg_match("/Content-Type:/i", $answer)) {
 					$content = $answer;
 					$answer = '';
 					break;
 				}
 			}
 			$socket_status = socket_get_status($fp);
-			if (eregi("Content-Type: *([a-z/.-]*)", $content, $regs)) {
+			if (preg_match("/Content-Type: *([a-z\/.-]*)/i", $content, $regs)) {
 				if ($regs[1] == 'text/html' || $regs[1] == 'text/' || $regs[1] == 'text/plain') {
 					$status['content'] = 'text';
 					$status['state'] = 'ok';
@@ -202,7 +201,7 @@ function check_robot_txt($url) {
 		$regs = Array ();
 		$this_agent= "";
 		while (list ($id, $line) = each($robot)) {
-			if (eregi("^user-agent: *([^#]+) *", $line, $regs)) {
+			if (preg_match("/^user-agent: *([^#]+) */", $line, $regs)) {
 				$this_agent = trim($regs[1]);
 				if ($this_agent == '*' || $this_agent == $user_agent)
 					$check = 1;
@@ -210,8 +209,8 @@ function check_robot_txt($url) {
 					$check = 0;
 			}
 
-			if (eregi("disallow: *([^#]+)", $line, $regs) && $check == 1) {
-				$disallow_str = eregi_replace("[\n ]+", "", $regs[1]);
+			if (preg_match("/disallow: *([^#]+)/", $line, $regs) && $check == 1) {
+				$disallow_str = preg_replace("/[\n ]+/i", "", $regs[1]);
 				if (trim($disallow_str) != "") {
 					$omit[] = $disallow_str;
 				} else {
@@ -576,7 +575,7 @@ function clean_file($file, $url, $type) {
 	$urlparts = parse_url($url);
 	$host = $urlparts['host'];
 	//remove filename from path
-	$path = eregi_replace('([^/]+)$', "", $urlparts['path']);
+	$path = preg_replace('/([^\/]+)$/i', "", $urlparts['path']);
 	$file = preg_replace("/<link rel[^<>]*>/i", " ", $file);
 	$file = preg_replace("@<!--sphider_noindex-->.*?<!--\/sphider_noindex-->@si", " ",$file);	
 	$file = preg_replace("@<!--.*?-->@si", " ",$file);	
