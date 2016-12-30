@@ -1,4 +1,4 @@
-<?
+<?php
 error_reporting(0); // Any notices/warnings will cause errors in suggest javascript
 
 
