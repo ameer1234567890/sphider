@@ -4,6 +4,9 @@ CHANGELOG
 By Ando Saabas          ando(a t)cs.ioc.ee
 ============================================
 
+Sphider 1.3.6, release date 04-06-2013
+	Code injection vulnerability bug fix (Ando Saabas)
+
 Sphider 1.3.5, release date 13-12-2009
 	Fixed ereg warnings - PHP 6 compatible now (Ando Saabas)
     Update Bulgarian language file (Martin Halachev)
