@@ -114,7 +114,7 @@ function url_status($url) {
 		fputs($fp, $request);
 		$answer = fgets($fp, 4096);
 		$regs = Array ();
-		if (preg_match("/HTTP/[0-9.]+ (([0-9])[0-9]{2})/", $answer, $regs)) {
+		if (preg_match("@HTTP/[0-9.]+ (([0-9])[0-9]{2})@", $answer, $regs)) {
 			$httpcode = $regs[2];
 			$full_httpcode = $regs[1];
 
@@ -616,7 +616,7 @@ function clean_file($file, $url, $type) {
 		$file = preg_replace("/".$char[0]."/i", $char[1], $file);
 	}
 	$file = preg_replace("/&[a-z]{1,6};/", " ", $file);
-	$file = preg_replace("/[\*\^\+\?\\\.\[\]\^\$\|\{\)\(\}~!\"\/@#£$%&=`´;><:,]+/", " ", $file);
+	$file = preg_replace("/[\*\^\+\?\\\.\[\]\^\$\|\{\)\(\}~!\"\/@#Â£$%&=`Â´;><:,]+/", " ", $file);
 	$file = preg_replace("/\s+/", " ", $file);
 	$data['fulltext'] = addslashes($fulltext);
 	$data['content'] = addslashes($file);
