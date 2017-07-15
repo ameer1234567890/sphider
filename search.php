@@ -41,6 +41,9 @@ require_once("$language_dir/en-language.php");
 require_once("$include_dir/searchfuncs.php");
 require_once("$include_dir/categoryfuncs.php");
 
+if ($start <= 1) {$pagestart = "";} else {$pagestart = " [".$start."]";} 
+if ($query != "") { $pagetitle = $query." ".$pagestart;} else { $pagetitle = "Search";} 
+
 
 include "$settings_dir/conf.php";
 
